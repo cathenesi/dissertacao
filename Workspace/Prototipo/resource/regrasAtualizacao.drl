@@ -1,0 +1,97 @@
+import controle.evento.*;
+import controle.dominio.*;
+import controle.agente.atuador.*
+
+declare EventoNumeroMensagensFila
+	@role( event )
+	@expires( 1s )
+end
+
+declare EventoInstanciaAtiva
+	@role( event )
+	@expires( 1s )
+end
+
+declare EventoInstanciaInativa
+	@role( event )
+	@expires( 1s )
+end
+
+rule "estadoNormalFilaMensagens"
+	activation-group "atualizacao-fila"
+	no-loop true
+when 
+	$evento : EventoNumeroMensagensFila(numeroMensagensFila <= 20)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.NORMAL);
+	}
+	modify ($elemento) {
+		setValorAtual($evento.getNumeroMensagensFila().toString());
+	}
+end
+
+rule "estadoAlertaFilaMensagens"
+	activation-group "atualizacao-fila"
+	no-loop true
+when 
+	$evento : EventoNumeroMensagensFila(numeroMensagensFila > 20 && numeroMensagensFila <= 100)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.ALERTA);
+	}
+	modify ($elemento) {
+		setValorAtual($evento.getNumeroMensagensFila().toString());
+	}
+end
+
+rule "estadoCriticoFilaMensagens"
+	activation-group "atualizacao-fila"
+	no-loop true
+when 
+	$evento : EventoNumeroMensagensFila(numeroMensagensFila > 100)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.CRITICO);
+	}
+	modify ($elemento) {
+		setValorAtual($evento.getNumeroMensagensFila().toString());
+	}
+end
+
+rule "estadoConsumidorAtivo"
+	activation-group "executor"
+	no-loop true
+when 
+	$evento : EventoInstanciaAtiva(identificadorElementoGerenciado != null)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
+							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.NORMAL);
+	}
+end
+
+rule "estadoConsumidorInativo"
+	activation-group "executor"
+	no-loop true
+when 
+	$evento : EventoInstanciaInativa(identificadorElementoGerenciado != null)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
+							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.INATIVO);
+	}
+end

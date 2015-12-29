@@ -1,0 +1,43 @@
+import controle.dominio.*;
+import controle.agente.atuador.*
+
+global controle.agente.controlador.AgenteExecutorReconfiguracao controladorAtuacao;
+
+rule "ativacaoInstancia1"
+	activation-group "reconfiguracao"
+when 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+							&& (estadoAtual == Estado.NORMAL || estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
+	$executor1 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_1 
+							&& estadoAtual == Estado.INATIVO);
+then
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_1.toString());
+end
+
+rule "ativacaoInstancia2"
+	activation-group "reconfiguracao"
+when 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+							&& (estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
+	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2 
+							&& estadoAtual == Estado.INATIVO);
+then
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2.toString());
+end
+
+rule "inativacaoInstancia2"
+	activation-group "reconfiguracao"
+when 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
+							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+							&& estadoAtual == Estado.NORMAL);
+	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2 
+							&& estadoAtual == Estado.NORMAL);
+then
+	controladorAtuacao.ruleFired(AgenteInterruptorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2.toString());
+end

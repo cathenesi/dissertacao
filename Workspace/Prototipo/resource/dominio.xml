@@ -1,0 +1,40 @@
+<SistemaControlado>
+	<programas>
+		<Programa>
+			<identificador>FILA_MENSAGEM</identificador>
+			<descricao>Fila de Mensagens</descricao>
+			<atributos>
+				<Atributo>
+					<identificador>NUMERO_MENSAGENS</identificador>
+					<descricao>Numero Mensagens</descricao>
+					<valorAtual></valorAtual>
+					<estadoAtual>NORMAL</estadoAtual>					
+				</Atributo>
+			</atributos>
+		</Programa>
+		<Programa>
+			<identificador>CONSUMIDOR_INSTANCIA_1</identificador>
+			<descricao>Consumidor 1</descricao>
+			<atributos>
+				<Atributo>
+					<identificador>ESTADO</identificador>
+					<descricao>Estado</descricao>
+					<valorAtual></valorAtual>
+					<estadoAtual>INATIVO</estadoAtual>					
+				</Atributo>
+			</atributos>
+		</Programa>
+		<Programa>
+			<identificador>CONSUMIDOR_INSTANCIA_2</identificador>
+			<descricao>Consumidor 2</descricao>
+			<atributos>
+				<Atributo>
+					<identificador>ESTADO</identificador>
+					<descricao>Estado</descricao>
+					<valorAtual></valorAtual>
+					<estadoAtual>INATIVO</estadoAtual>					
+				</Atributo>
+			</atributos>
+		</Programa>
+	</programas>
+</SistemaControlado>
