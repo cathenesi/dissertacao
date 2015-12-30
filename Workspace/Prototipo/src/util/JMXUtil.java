@@ -16,32 +16,6 @@ import sistemadistribuido.servidor.conector.ConectorAtivacao;
  */
 public class JMXUtil {
 
-	/*
-	 * Lista de métodos do broker da fila.
-	 *
-	public enum MetodoFila {
-
-		CONSUMER_COUNT, QUEUE_SIZE, SEND_MESSAGE, PURGE;
-
-		public Object executar(QueueViewMBean mBean, String param) throws Exception {
-
-			switch (this) {
-			case CONSUMER_COUNT:
-				return mBean.getConsumerCount();
-			case QUEUE_SIZE:
-				return mBean.getQueueSize();
-			case SEND_MESSAGE:
-				mBean.sendTextMessage(param);
-				break;
-			case PURGE:
-				mBean.purge();
-				break;
-			}
-			return null;
-		}
-	}
-	*/
-
 	/**
 	 * Lista de métodos das instâncias.
 	 */
@@ -65,51 +39,6 @@ public class JMXUtil {
 		}
 	}
 
-	/*
-	 * Invoca um método do broker da fila.
-	 *
-	public Object invocarMetodoFila(MetodoFila metodo, String param) {
-
-		JMXConnector jmxc = null;
-		try {
-			JMXServiceURL url = new JMXServiceURL(Ambiente.getAtributo(AtributoFila.JMS_BROKER_JMX_HOST.getValue()));
-			Map<String, Object> env = new HashMap<String, Object>();
-			env.put(JMXConnector.CREDENTIALS,
-					new String[] { Ambiente.getAtributo(AtributoFila.JMS_BROKER_USER.getValue()),
-							Ambiente.getAtributo(AtributoFila.JMS_BROKER_PASSWORD.getValue()) });
-
-			jmxc = JMXConnectorFactory.connect(url, env);
-			jmxc.connect();
-			MBeanServerConnection connection = jmxc.getMBeanServerConnection();
-			ObjectName name = new ObjectName(Ambiente.getAtributo(AtributoFila.JMS_BROKER_NAME.getValue()));
-			BrokerViewMBean brokerMbean = (BrokerViewMBean) MBeanServerInvocationHandler.newProxyInstance(connection,
-					name, BrokerViewMBean.class, true);
-
-			for (ObjectName queueObjectName : brokerMbean.getQueues()) {
-				QueueViewMBean queueMbean = (QueueViewMBean) MBeanServerInvocationHandler.newProxyInstance(connection,
-						queueObjectName, QueueViewMBean.class, true);
-				if (Ambiente.getAtributo(AtributoFila.JMS_BROKER_QUEUE_NAME.getValue()).equals(queueMbean.getName())) {
-					return metodo.executar(queueMbean, param);
-				}
-			}
-			throw new IllegalArgumentException(Ambiente.getAtributo(AtributoFila.JMS_BROKER_NAME.getValue()));
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			Log.registrar(e);
-			e.printStackTrace();
-		} finally {
-			try {
-				jmxc.close();
-			} catch (IOException e) {
-				Log.registrar(e);
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-	*/
-
 	/**
 	 * Invoca um método de uma instância de um consumidor de fila.
 	 */
@@ -118,7 +47,7 @@ public class JMXUtil {
 		JMXConnector jmxc = null;
 		try {
 			JMXServiceURL url = new JMXServiceURL(
-					Ambiente.getAtributo("elemento.monitorado." + nomeInstancia + ".jmx.host"));
+					Ambiente.getAtributoAmbiente("elemento.monitorado." + nomeInstancia + ".jmx.host"));
 
 			jmxc = JMXConnectorFactory.connect(url);
 			jmxc.connect();

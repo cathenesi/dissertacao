@@ -46,7 +46,7 @@ public class ConectorAtivacaoImpl implements ConectorAtivacao {
 	 */
 	@Override
 	public String getNomeInstancia() {
-		return Ambiente.getNomeInstancia();
+		return Ambiente.getNomeInstanciaParametro();
 	}
 
 }

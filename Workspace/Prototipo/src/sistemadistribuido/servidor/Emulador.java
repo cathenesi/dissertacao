@@ -93,7 +93,7 @@ public class Emulador {
 
 					if (this.conector.isAtivo() && serverSocket == null) {
 						serverSocket = new ServerSocket(
-								Ambiente.getPortaSocket());
+								Ambiente.getPortaSocketParametro());
 						System.out.println("iniciando conexoes....");
 					} else if (!this.conector.isAtivo() && serverSocket != null) {
 						serverSocket.close();
@@ -160,8 +160,8 @@ public class Emulador {
 	public static void main(String[] args) {
 
 		ExecutorConsulta consumidor = new ExecutorConsulta();
-		consumidor.conector = registrarConector(Ambiente.getNomeInstancia(),
-				Ambiente.isInstanciaAtiva());
+		consumidor.conector = registrarConector(Ambiente.getNomeInstanciaParametro(),
+				Ambiente.isInstanciaAtivaParametro());
 		Thread brokerThread = new Thread(consumidor);
 		brokerThread.setDaemon(false);
 		brokerThread.start();

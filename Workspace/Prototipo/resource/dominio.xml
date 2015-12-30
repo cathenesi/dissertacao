@@ -26,7 +26,7 @@
 		</Programa>
 		<Programa>
 			<identificador>SERVIDOR_INSTANCIA_2</identificador>
-			<descricao>Instancia 1 do Servidor</descricao>
+			<descricao>Instancia 2 do Servidor</descricao>
 			<atributos>
 				<Atributo>
 					<identificador>ESTADO</identificador>

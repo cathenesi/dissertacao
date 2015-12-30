@@ -45,7 +45,7 @@ public class SimuladorCliente {
 
 					long tempo = System.currentTimeMillis();
 
-					socket = new Socket(Ambiente.getHostSocket(), Ambiente.getPortaSocket());
+					socket = new Socket(Ambiente.getHostSocketParametro(), Ambiente.getPortaSocketParametro());
 					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 					DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
