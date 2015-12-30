@@ -1,10 +1,10 @@
 package controle.evento;
 
-import controle.dominio.IdentificadorAtributoElementoGerenciado;
-import controle.dominio.IdentificadorElementoGerenciado;
+import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
- * Evento publicado para indicar que uma instância do consumidor está inativa.
+ * Evento destinado a indicar que uma instância do servidor {@link Emulador} está inativa.
  */
 public class EventoInstanciaInativa extends EventoPrimitivo {
 

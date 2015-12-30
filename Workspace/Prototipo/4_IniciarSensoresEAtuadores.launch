@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <stringAttribute key="bad_container_name" value="/IniciarProdutorMensagem"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/ProvaDeConceito/lib/jade.jar"/>
+<listEntry value="/Prototipo/lib/jade.jar"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -13,7 +13,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.debug.ui.INCLUDE_EXTERNAL_JARS" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="jade.Boot"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-container &#10;-host localhost &#10;-port 1111 &#10;-agents &quot;SENSOR[FILA_MENSAGEM]:controle.agente.sensor.AgenteSensorFilaMensagem;SENSOR[CONSUMIDOR_INSTANCIA_1]:controle.agente.sensor.AgenteSensorInstanciaExecutor;SENSOR[CONSUMIDOR_INSTANCIA_2]:controle.agente.sensor.AgenteSensorInstanciaExecutor;INTERRUPTOR_EXECUTOR_INSTANCIA:controle.agente.atuador.AgenteInterruptorInstanciaConsumidor;INICIALIZADOR_EXECUTOR_INSTANCIA:controle.agente.atuador.AgenteInicializadorInstanciaConsumidor&quot;"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Apresentacao"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#10;-Dcom.sun.management.jmxremote.port=6661 &#10;-Dcom.sun.management.jmxremote.authenticate=false &#10;-Dcom.sun.management.jmxremote.ssl=false&#10;-DnomeInstancia=sensores;-Xmx1024"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-container &#13;&#10;-host localhost &#13;&#10;-port 1111 &#13;&#10;-agents &quot;SENSOR[BALANCEADOR]:controle.agente.sensor.AgenteSensorBalanceador;SENSOR[SERVIDOR_INSTANCIA_1]:controle.agente.sensor.AgenteSensorInstanciaServidor;SENSOR[SERVIDOR_INSTANCIA_2]:controle.agente.sensor.AgenteSensorInstanciaServidor;INTERRUPTOR_INSTANCIA_SERVIDOR:controle.agente.atuador.AgenteInterruptorInstanciaServidor;INICIALIZADOR_INSTANCIA_SERVIDOR:controle.agente.atuador.AgenteInicializadorInstanciaServidor&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Prototipo"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=6661 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-DnomeInstancia=sensores"/>
 </launchConfiguration>

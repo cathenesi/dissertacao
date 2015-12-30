@@ -1,8 +1,9 @@
 import controle.evento.*;
 import controle.dominio.*;
+import controle.dominio.identificador.*;
 import controle.agente.atuador.*
 
-declare EventoNumeroMensagensFila
+declare EventoNumeroRequisicoesSimultaneas
 	@role( event )
 	@expires( 1s )
 end
@@ -17,59 +18,59 @@ declare EventoInstanciaInativa
 	@expires( 1s )
 end
 
-rule "estadoNormalFilaMensagens"
-	activation-group "atualizacao-fila"
+rule "estadoNormalBalanceador"
+	activation-group "balanceador"
 	no-loop true
 when 
-	$evento : EventoNumeroMensagensFila(numeroMensagensFila <= 20)
+	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes <= 10)
 	from entry-point "FluxoDeEventos"
-	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR);
 then
 	modify ($elemento) {
 		setEstadoAtual(Estado.NORMAL);
 	}
 	modify ($elemento) {
-		setValorAtual($evento.getNumeroMensagensFila().toString());
+		setValorAtual($evento.getNumeroRequisicoes().toString());
 	}
 end
 
-rule "estadoAlertaFilaMensagens"
-	activation-group "atualizacao-fila"
+rule "estadoAlertaBalanceador"
+	activation-group "balanceador"
 	no-loop true
 when 
-	$evento : EventoNumeroMensagensFila(numeroMensagensFila > 20 && numeroMensagensFila <= 100)
+	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes > 10 && numeroRequisicoes <= 20)
 	from entry-point "FluxoDeEventos"
-	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR);
 then
 	modify ($elemento) {
 		setEstadoAtual(Estado.ALERTA);
 	}
 	modify ($elemento) {
-		setValorAtual($evento.getNumeroMensagensFila().toString());
+		setValorAtual($evento.getNumeroRequisicoes().toString());
 	}
 end
 
-rule "estadoCriticoFilaMensagens"
-	activation-group "atualizacao-fila"
+rule "estadoCriticoBalanceador"
+	activation-group "balanceador"
 	no-loop true
 when 
-	$evento : EventoNumeroMensagensFila(numeroMensagensFila > 100)
+	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes > 100)
 	from entry-point "FluxoDeEventos"
-	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM);
+	$elemento : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR);
 then
 	modify ($elemento) {
 		setEstadoAtual(Estado.CRITICO);
 	}
 	modify ($elemento) {
-		setValorAtual($evento.getNumeroMensagensFila().toString());
+		setValorAtual($evento.getNumeroRequisicoes().toString());
 	}
 end
 
-rule "estadoConsumidorAtivo"
-	activation-group "executor"
+rule "estadoAtivoInstanciaServidor"
+	activation-group "servidor"
 	no-loop true
 when 
 	$evento : EventoInstanciaAtiva(identificadorElementoGerenciado != null)
@@ -82,8 +83,8 @@ then
 	}
 end
 
-rule "estadoConsumidorInativo"
-	activation-group "executor"
+rule "estadoInativoInstanciaServidor"
+	activation-group "servidor"
 	no-loop true
 when 
 	$evento : EventoInstanciaInativa(identificadorElementoGerenciado != null)

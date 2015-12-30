@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
+
 /**
  * Indica um artefato de hardware ou de software que compõe o sistema
  * distribuído. Superclasse de {@link Computador} e de {@link Programa}.

@@ -1,4 +1,4 @@
-package controle.dominio;
+package controle.dominio.identificador;
 
 /**
  * Lista os elementos gerenciados.
@@ -6,20 +6,20 @@ package controle.dominio;
 public enum IdentificadorElementoGerenciado {
 
 	/**
-	 * Identifica a fila de mensagens.
+	 * Identifica a o balanceador de carga.
 	 */
-	FILA_MENSAGEM,
+	BALANCEADOR,
 	/**
-	 * Identifica a instância n.1 do consumidor
+	 * Identifica a instância n.1 do servidor
 	 */
-	CONSUMIDOR_INSTANCIA_1,
+	SERVIDOR_INSTANCIA_1,
 	/**
-	 * Identifica a instância n.2 do consumidor
+	 * Identifica a instância n.2 do servidor
 	 */
-	CONSUMIDOR_INSTANCIA_2;
+	SERVIDOR_INSTANCIA_2;
 
 	/**
-	 * Retorna identificador pela sua representa;'ao em String.
+	 * Retorna identificador pela sua representação em String.
 	 */
 	public static IdentificadorElementoGerenciado getByName(String name) {
 

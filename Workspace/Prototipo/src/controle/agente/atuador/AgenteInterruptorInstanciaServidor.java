@@ -10,14 +10,13 @@ import controle.agente.sensor.comportamento.ComportamentoPadrao;
 /**
  * Agente responsável pela interrupção de instância de um consumidor da fila.
  */
-public class AgenteInterruptorInstanciaConsumidor extends Agent {
+public class AgenteInterruptorInstanciaServidor extends Agent {
 
 	private static final long serialVersionUID = -2117862749424897781L;
 
 	/**
 	 * Comportamento do agente, interrompe a execução de uma instância da
-	 * aplicação consumidora quando recebe notificação do agente Executor de
-	 * Reconfiguração.
+	 * aplicação quando recebe notificação do agente Executor de Reconfiguração.
 	 */
 	public class InterromperInstancia extends ComportamentoPadrao {
 
@@ -33,12 +32,15 @@ public class AgenteInterruptorInstanciaConsumidor extends Agent {
 
 					String elementoGerenciado = msgReceived.getContent();
 
-					if (!(Boolean) instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.IS_ATIVO,
-							elementoGerenciado)) {
+					if (!(Boolean) instancia
+							.invocarMetodoInstanciaExecutorConsulta(
+									JMXUtil.MetodoInstancia.IS_ATIVO,
+									elementoGerenciado)) {
 						return;
 					}
 
-					instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.INATIVAR,
+					instancia.invocarMetodoInstanciaExecutorConsulta(
+							JMXUtil.MetodoInstancia.INATIVAR,
 							elementoGerenciado);
 				}
 			} catch (Exception e) {

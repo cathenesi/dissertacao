@@ -1,10 +1,10 @@
-package sistemadistribuido.consumidor.conector;
+package sistemadistribuido.servidor.conector;
 
 import util.Ambiente;
 
 /**
- * Implementação de conector que permite ativar e inativar uma instância da
- * aplicação {@link Consumidor}
+ * Implementação de conector que permite ativar e inativar uma instância do
+ * servidor {@link Emulador}
  */
 public class ConectorAtivacaoImpl implements ConectorAtivacao {
 
@@ -15,8 +15,7 @@ public class ConectorAtivacaoImpl implements ConectorAtivacao {
 	}
 
 	/**
-	 * Ativa uma instância da aplicação que consome a fila de mensagens,
-	 * permitindo a execução da instância.
+	 * Ativa uma instância da aplicação, permitindo a execução da instância.
 	 */
 	@Override
 	public synchronized void ativar() {
@@ -24,8 +23,8 @@ public class ConectorAtivacaoImpl implements ConectorAtivacao {
 	}
 
 	/**
-	 * Inativa uma instância da aplicação que consome a fila de mensagens,
-	 * interrompendo a execução da instância.
+	 * Inativa uma instância da aplicação, interrompendo a execução da
+	 * instância.
 	 */
 	@Override
 	public synchronized void inativar() {

@@ -8,16 +8,16 @@ import util.Log;
 import controle.agente.sensor.comportamento.ComportamentoPadrao;
 
 /**
- * Agente responsável pela inicialização de instância de um consumidor da fila.
+ * Agente responsável pela inicialização de uma instância do servidor
+ * {@link Emulador}.
  */
-public class AgenteInicializadorInstanciaConsumidor extends Agent {
+public class AgenteInicializadorInstanciaServidor extends Agent {
 
 	private static final long serialVersionUID = -2117862749424897781L;
 
 	/**
 	 * Comportamento do agente, inicializa a execução de uma instância da
-	 * aplicação consumidora quando recebe notificação do agente Executor de
-	 * Reconfiguração.
+	 * aplicação quando recebe notificação do agente Executor de Reconfiguração.
 	 */
 	public class InicializarInstancia extends ComportamentoPadrao {
 
@@ -33,13 +33,15 @@ public class AgenteInicializadorInstanciaConsumidor extends Agent {
 
 					String elementoGerenciado = msgReceived.getContent();
 
-					if ((Boolean) instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.IS_ATIVO,
-							elementoGerenciado)) {
+					if ((Boolean) instancia
+							.invocarMetodoInstanciaExecutorConsulta(
+									JMXUtil.MetodoInstancia.IS_ATIVO,
+									elementoGerenciado)) {
 						return;
 					}
 
-					instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.ATIVAR,
-							elementoGerenciado);
+					instancia.invocarMetodoInstanciaExecutorConsulta(
+							JMXUtil.MetodoInstancia.ATIVAR, elementoGerenciado);
 				}
 			} catch (Exception e) {
 				Log.registrar(e);

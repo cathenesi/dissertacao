@@ -1,19 +1,20 @@
 package controle.agente.sensor;
 
-import controle.agente.sensor.comportamento.PublicarEventoPrimitivo;
-import controle.dominio.IdentificadorAtributoElementoGerenciado;
-import controle.dominio.IdentificadorElementoGerenciado;
-import controle.evento.EventoInstanciaAtiva;
-import controle.evento.EventoInstanciaInativa;
 import jade.core.Agent;
+import sistemadistribuido.servidor.Emulador;
 import util.DFUtil;
 import util.JMXUtil;
+import controle.agente.sensor.comportamento.PublicarEventoPrimitivo;
+import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
+import controle.evento.EventoInstanciaAtiva;
+import controle.evento.EventoInstanciaInativa;
 
 /**
- * Agente sensor destinado a identificar o estado de uma instância do consumidor
- * da fila de mensagens.
+ * Agente sensor destinado a identificar o estado de uma instância do servidor
+ * {@link Emulador}
  */
-public class AgenteSensorInstanciaExecutor extends Agent {
+public class AgenteSensorInstanciaServidor extends Agent {
 
 	private static final long serialVersionUID = 4585767475494660603L;
 
@@ -22,7 +23,8 @@ public class AgenteSensorInstanciaExecutor extends Agent {
 	 * primitivo {@link EventoInstanciaAtiva} a cada 1s, caso a instância
 	 * observada esteja ativa.
 	 */
-	public class PublicarEventoInstanciaAtiva extends PublicarEventoPrimitivo<EventoInstanciaAtiva> {
+	public class PublicarEventoInstanciaAtiva extends
+			PublicarEventoPrimitivo<EventoInstanciaAtiva> {
 
 		private static final long serialVersionUID = -3446027377283448304L;
 
@@ -33,15 +35,18 @@ public class AgenteSensorInstanciaExecutor extends Agent {
 
 			Boolean isAtivo = false;
 			try {
-				isAtivo = (Boolean) instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.IS_ATIVO,
-						super.getNomeElementoGerenciado());
+				isAtivo = (Boolean) instancia
+						.invocarMetodoInstanciaExecutorConsulta(
+								JMXUtil.MetodoInstancia.IS_ATIVO,
+								super.getNomeElementoGerenciado());
 			} catch (RuntimeException e) {
 				isAtivo = false;
 			}
 			if (isAtivo != null && isAtivo) {
 
 				return new EventoInstanciaAtiva(
-						IdentificadorElementoGerenciado.getByName(super.getNomeElementoGerenciado()),
+						IdentificadorElementoGerenciado.getByName(super
+								.getNomeElementoGerenciado()),
 						IdentificadorAtributoElementoGerenciado.ESTADO);
 			}
 			return null;
@@ -58,7 +63,8 @@ public class AgenteSensorInstanciaExecutor extends Agent {
 	 * primitivo {@link EventoInstanciaInativa} a cada 1s, caso a instância
 	 * observada esteja inativa.
 	 */
-	public class PublicarEventoInstanciaInativa extends PublicarEventoPrimitivo<EventoInstanciaInativa> {
+	public class PublicarEventoInstanciaInativa extends
+			PublicarEventoPrimitivo<EventoInstanciaInativa> {
 
 		private static final long serialVersionUID = 2564307284783450889L;
 
@@ -69,14 +75,17 @@ public class AgenteSensorInstanciaExecutor extends Agent {
 
 			Boolean isAtivo = false;
 			try {
-				isAtivo = (Boolean) instancia.invocarMetodoInstanciaExecutorConsulta(JMXUtil.MetodoInstancia.IS_ATIVO,
-						super.getNomeElementoGerenciado());
+				isAtivo = (Boolean) instancia
+						.invocarMetodoInstanciaExecutorConsulta(
+								JMXUtil.MetodoInstancia.IS_ATIVO,
+								super.getNomeElementoGerenciado());
 			} catch (RuntimeException e) {
 				isAtivo = false;
 			}
 			if (isAtivo == null || !isAtivo) {
 				return new EventoInstanciaInativa(
-						IdentificadorElementoGerenciado.getByName(super.getNomeElementoGerenciado()),
+						IdentificadorElementoGerenciado.getByName(super
+								.getNomeElementoGerenciado()),
 						IdentificadorAtributoElementoGerenciado.ESTADO);
 			}
 			return null;

@@ -1,31 +1,24 @@
 package util;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerInvocationHandler;
-import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-import org.apache.activemq.broker.jmx.BrokerViewMBean;
-import org.apache.activemq.broker.jmx.QueueViewMBean;
-
-import sistemadistribuido.consumidor.Consumidor;
-import sistemadistribuido.consumidor.conector.ConectorAtivacao;
-import util.Ambiente.AtributoFila;
+import sistemadistribuido.servidor.Emulador;
+import sistemadistribuido.servidor.conector.ConectorAtivacao;
 
 /**
  * Utilitario para acessar componentes via JMX.
  */
 public class JMXUtil {
 
-	/**
+	/*
 	 * Lista de métodos do broker da fila.
-	 */
+	 *
 	public enum MetodoFila {
 
 		CONSUMER_COUNT, QUEUE_SIZE, SEND_MESSAGE, PURGE;
@@ -47,6 +40,7 @@ public class JMXUtil {
 			return null;
 		}
 	}
+	*/
 
 	/**
 	 * Lista de métodos das instâncias.
@@ -71,9 +65,9 @@ public class JMXUtil {
 		}
 	}
 
-	/**
+	/*
 	 * Invoca um método do broker da fila.
-	 */
+	 *
 	public Object invocarMetodoFila(MetodoFila metodo, String param) {
 
 		JMXConnector jmxc = null;
@@ -114,6 +108,7 @@ public class JMXUtil {
 		}
 		return null;
 	}
+	*/
 
 	/**
 	 * Invoca um método de uma instância de um consumidor de fila.
@@ -129,7 +124,7 @@ public class JMXUtil {
 			jmxc.connect();
 			MBeanServerConnection connection = jmxc.getMBeanServerConnection();
 			ConectorAtivacao mBean = (ConectorAtivacao) MBeanServerInvocationHandler.newProxyInstance(connection,
-					Consumidor.getJMXObjectName(nomeInstancia), ConectorAtivacao.class, true);
+					Emulador.getJMXObjectName(nomeInstancia), ConectorAtivacao.class, true);
 			return metodo.executar(mBean);
 		} catch (RuntimeException e) {
 			throw e;

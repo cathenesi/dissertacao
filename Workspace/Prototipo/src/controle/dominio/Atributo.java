@@ -2,6 +2,8 @@ package controle.dominio;
 
 import java.io.Serializable;
 
+import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
+
 /**
  * Atributo de um elemento gerenciado, cuja mudança de estado é relevante para
  * identificar um estado inconsistente do sistema controlado – por exemplo, o

@@ -1,4 +1,5 @@
 import controle.dominio.*;
+import controle.dominio.identificador.*;
 import controle.agente.atuador.*
 
 global controle.agente.controlador.AgenteExecutorReconfiguracao controladorAtuacao;
@@ -6,38 +7,38 @@ global controle.agente.controlador.AgenteExecutorReconfiguracao controladorAtuac
 rule "ativacaoInstancia1"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
 							&& (estadoAtual == Estado.NORMAL || estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
 	$executor1 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
-							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_1 
+							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1 
 							&& estadoAtual == Estado.INATIVO);
 then
-	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_1.toString());
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1.toString());
 end
 
 rule "ativacaoInstancia2"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
 							&& (estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
 	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
-							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2 
+							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.INATIVO);
 then
-	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2.toString());
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2.toString());
 end
 
 rule "inativacaoInstancia2"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_MENSAGENS 
-							&& programa.identificador == IdentificadorElementoGerenciado.FILA_MENSAGEM 
+	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
 							&& estadoAtual == Estado.NORMAL);
 	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
-							&& programa.identificador == IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2 
+							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.NORMAL);
 then
-	controladorAtuacao.ruleFired(AgenteInterruptorInstanciaConsumidor.class, IdentificadorElementoGerenciado.CONSUMIDOR_INSTANCIA_2.toString());
+	controladorAtuacao.ruleFired(AgenteInterruptorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2.toString());
 end

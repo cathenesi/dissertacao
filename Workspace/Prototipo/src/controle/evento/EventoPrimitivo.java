@@ -1,13 +1,12 @@
 package controle.evento;
 
-import jade.util.leap.Serializable;
-
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-import controle.dominio.IdentificadorAtributoElementoGerenciado;
-import controle.dominio.IdentificadorElementoGerenciado;
+import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
  * Superclasse dos eventos primitivos, gerados pelos sensores.
@@ -24,7 +23,8 @@ public abstract class EventoPrimitivo implements Serializable {
 	public EventoPrimitivo() {
 	}
 
-	public EventoPrimitivo(IdentificadorElementoGerenciado identificadorElementoGerenciado,
+	public EventoPrimitivo(
+			IdentificadorElementoGerenciado identificadorElementoGerenciado,
 			IdentificadorAtributoElementoGerenciado identificadorAtributoElementoGerenciado) {
 		this.identificadorElementoGerenciado = identificadorElementoGerenciado;
 		this.identificadorAtributoElementoGerenciado = identificadorAtributoElementoGerenciado;
@@ -36,7 +36,8 @@ public abstract class EventoPrimitivo implements Serializable {
 		}
 	}
 
-	public void setIdentificadorElementoGerenciado(IdentificadorElementoGerenciado identificadorElementoGerenciado) {
+	public void setIdentificadorElementoGerenciado(
+			IdentificadorElementoGerenciado identificadorElementoGerenciado) {
 		this.identificadorElementoGerenciado = identificadorElementoGerenciado;
 	}
 

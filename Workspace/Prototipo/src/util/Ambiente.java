@@ -59,4 +59,18 @@ public class Ambiente {
 		return Boolean.valueOf(System.getProperty("instanciaAtiva"));
 	}
 
+	/**
+	 * Retorna o número da porta configurada para inicializar o socket
+	 */
+	public static Integer getPortaSocket() {
+		return Integer.valueOf(System.getProperty("portaSocket"));
+	}
+
+	/**
+	 * Retorna o nome do host - usado pelo cliente
+	 */
+	public static String getHostSocket() {
+		return System.getProperty("hostSocket");
+	}
+
 }

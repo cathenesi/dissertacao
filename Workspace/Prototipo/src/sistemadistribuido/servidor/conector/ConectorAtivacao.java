@@ -1,8 +1,8 @@
-package sistemadistribuido.consumidor.conector;
+package sistemadistribuido.servidor.conector;
 
 /**
- * Definição de conector que permite ativar e inativar uma instância da
- * aplicação {@link Consumidor}
+ * Definição de conector que permite ativar e inativar uma instância do servidor
+ * {@link Emulador}
  */
 public interface ConectorAtivacao {
 

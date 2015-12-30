@@ -1,4 +1,4 @@
-package controle.dominio;
+package controle.dominio.identificador;
 
 /**
  * Noms dos atributos gerenciados
@@ -6,9 +6,9 @@ package controle.dominio;
 public enum IdentificadorAtributoElementoGerenciado {
 
 	/**
-	 * Número de mensagens na fila.
+	 * Número de requisições simultâneas.
 	 */
-	NUMERO_MENSAGENS,
+	NUMERO_REQUISICOES_SIMULTANEAS,
 	/**
 	 * Estado do atributo.
 	 */
