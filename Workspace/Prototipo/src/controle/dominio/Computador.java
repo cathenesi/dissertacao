@@ -3,7 +3,8 @@ package controle.dominio;
 /**
  * Artefatos de hardware que compõe o sistema distribuído.
  * 
- * Populado via arquivo {@link dominio.xml}.
+ * Populado, no momento da inicialiação do controle, usando o conteúdo do
+ * arquivo {@link dominio.xml}.
  */
 public class Computador extends ElementoGerenciado {
 

@@ -7,8 +7,8 @@ import jade.lang.acl.ACLMessage;
 import org.kie.api.runtime.rule.EntryPoint;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
-import util.DFUtil;
-import util.Log;
+import util.Erro;
+import controle.agente.DiretorioAgenteJadeUtil;
 import controle.evento.EventoPrimitivo;
 
 /**
@@ -47,7 +47,7 @@ public class AgenteProcessadorEvento extends Agent {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
-							Log.registrar(e);
+							Erro.registrar(e);
 						}
 					}
 				}
@@ -82,7 +82,7 @@ public class AgenteProcessadorEvento extends Agent {
 				}
 
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			}
 		}
 	}
@@ -94,13 +94,13 @@ public class AgenteProcessadorEvento extends Agent {
 		this.queueStream = (EntryPoint) super.getArguments()[1];
 		super.addBehaviour(new ProcessadorEvento());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

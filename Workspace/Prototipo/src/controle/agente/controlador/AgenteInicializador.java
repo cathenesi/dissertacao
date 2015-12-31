@@ -25,6 +25,7 @@ import org.kie.internal.runtime.StatefulKnowledgeSession;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import controle.agente.DiretorioAgenteJadeUtil;
 import controle.dominio.Atributo;
 import controle.dominio.Computador;
 import controle.dominio.Localidade;
@@ -33,8 +34,7 @@ import controle.dominio.SistemaControlado;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.wrapper.AgentContainer;
-import util.DFUtil;
-import util.Log;
+import util.Erro;
 
 /**
  * Agente responsável pela inicialização do controlador
@@ -66,22 +66,32 @@ public class AgenteInicializador extends Agent {
 
 			try {
 
-				KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+				KnowledgeBuilder builder = KnowledgeBuilderFactory
+						.newKnowledgeBuilder();
 
 				// 1) Inicializa a base de regras -----------------------------
-				builder.add(ResourceFactory.newClassPathResource("regrasAtualizacao.drl"), ResourceType.DRL);
-				builder.add(ResourceFactory.newClassPathResource("regrasReconfiguracao.drl"), ResourceType.DRL);
+				builder.add(ResourceFactory
+						.newClassPathResource("regrasAtualizacao.drl"),
+						ResourceType.DRL);
+				builder.add(ResourceFactory
+						.newClassPathResource("regrasReconfiguracao.drl"),
+						ResourceType.DRL);
 				if (builder.hasErrors()) {
 					throw new RuntimeException(builder.getErrors().toString());
 				}
-				KieBaseConfiguration kBaseConfig = KieServices.Factory.get().newKieBaseConfiguration();
+				KieBaseConfiguration kBaseConfig = KieServices.Factory.get()
+						.newKieBaseConfiguration();
 				kBaseConfig.setOption(EventProcessingOption.STREAM);
-				AgenteInicializador.this.knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfig);
-				knowledgeBase.addKnowledgePackages(builder.getKnowledgePackages());
+				AgenteInicializador.this.knowledgeBase = KnowledgeBaseFactory
+						.newKnowledgeBase(kBaseConfig);
+				knowledgeBase.addKnowledgePackages(builder
+						.getKnowledgePackages());
 
-				KieSessionConfiguration sessionConfig = KieServices.Factory.get().newKieSessionConfiguration();
+				KieSessionConfiguration sessionConfig = KieServices.Factory
+						.get().newKieSessionConfiguration();
 				sessionConfig.setOption(ClockTypeOption.get("realtime"));
-				AgenteInicializador.this.session = knowledgeBase.newStatefulKnowledgeSession(sessionConfig, null);
+				AgenteInicializador.this.session = knowledgeBase
+						.newStatefulKnowledgeSession(sessionConfig, null);
 
 				// 2) Inicializa o repositório de estados ---------------------
 				XStream stream = new XStream(new DomDriver());
@@ -92,33 +102,42 @@ public class AgenteInicializador extends Agent {
 				stream.alias("Localidade", Localidade.class);
 				try {
 					SistemaControlado sistemaControlado = (SistemaControlado) stream
-							.fromXML(ResourceFactory.newClassPathResource("dominio.xml").getInputStream());
+							.fromXML(ResourceFactory.newClassPathResource(
+									"dominio.xml").getInputStream());
 					sistemaControlado.validar();
-					List<Atributo> atributos = sistemaControlado.getListaAtributosGerenciados();
+					List<Atributo> atributos = sistemaControlado
+							.getListaAtributosGerenciados();
 					for (Atributo atributo : atributos) {
 						AgenteInicializador.this.session.insert(atributo);
 					}
-					AgenteInicializador.this.gerarRepresentacao(sistemaControlado);
+					AgenteInicializador.this
+							.gerarRepresentacao(sistemaControlado);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 
 				// 3) Inicializa o fluxo de eventos ---------------------------
-				AgenteInicializador.this.queueStream = AgenteInicializador.this.session.getEntryPoint("FluxoDeEventos");
+				AgenteInicializador.this.queueStream = AgenteInicializador.this.session
+						.getEntryPoint("FluxoDeEventos");
 
 				// 4) Inicializa o agente Executor de Reconfigurações ---------
 				AgentContainer ac = super.myAgent.getContainerController();
-				String agentName = DFUtil.getAgentName(AgenteExecutorReconfiguracao.class);
+				String agentName = DiretorioAgenteJadeUtil
+						.getNomeAgente(AgenteExecutorReconfiguracao.class);
 				// A sessão Drools criada é passada ao agente
-				ac.createNewAgent(agentName, AgenteExecutorReconfiguracao.class.getName(), new Object[] { session });
+				ac.createNewAgent(agentName,
+						AgenteExecutorReconfiguracao.class.getName(),
+						new Object[] { session });
 				ac.getAgent(agentName).start();
 
 				// 5) Inicializa o agente Processador de Eventos --------------
-				agentName = DFUtil.getAgentName(AgenteProcessadorEvento.class);
-				// A sessão Drools e o fluxo de eventos criados são passados ao
-				// agente
-				ac.createNewAgent(agentName, AgenteProcessadorEvento.class.getName(),
-						new Object[] { session, queueStream });
+				agentName = DiretorioAgenteJadeUtil
+						.getNomeAgente(AgenteProcessadorEvento.class);
+				// A sessão Drools e o fluxo de eventos criados são passados em
+				// váriaveis do agente
+				ac.createNewAgent(agentName,
+						AgenteProcessadorEvento.class.getName(), new Object[] {
+								session, queueStream });
 				ac.getAgent(agentName).start();
 
 			} catch (Exception e) {
@@ -133,18 +152,19 @@ public class AgenteInicializador extends Agent {
 		super.setup();
 		super.addBehaviour(new Startup());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 
 	/**
-	 * Cria arquivo com representação em HTML para melhor visualização.
+	 * Gera representação em HTML para melhor visualização no arquivo
+	 * {@link controle.html}. Os dados são atualizados a cada 2s.
 	 */
 	public void gerarRepresentacao(final SistemaControlado sistemaControlado) {
 
@@ -156,16 +176,18 @@ public class AgenteInicializador extends Agent {
 					try {
 						Path html = Paths.get("controle.html");
 						try (OutputStream out = new BufferedOutputStream(
-								Files.newOutputStream(html, java.nio.file.StandardOpenOption.CREATE,
+								Files.newOutputStream(
+										html,
+										java.nio.file.StandardOpenOption.CREATE,
 										java.nio.file.StandardOpenOption.TRUNCATE_EXISTING))) {
-							out.write(sistemaControlado.toString().getBytes(), 0,
-									sistemaControlado.toString().length());
+							out.write(sistemaControlado.toString().getBytes(),
+									0, sistemaControlado.toString().length());
 						} catch (IOException x) {
 							System.err.println(x);
 						}
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
-						Log.registrar(e);
+						Erro.registrar(e);
 					}
 				}
 			}

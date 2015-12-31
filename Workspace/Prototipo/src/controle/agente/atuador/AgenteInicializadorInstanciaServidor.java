@@ -2,10 +2,10 @@ package controle.agente.atuador;
 
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
-import util.DFUtil;
-import util.JMXUtil;
-import util.Log;
-import controle.agente.sensor.comportamento.ComportamentoPadrao;
+import sistemadistribuido.servidor.conector.JMXConectorAtivacaoUtil;
+import util.Erro;
+import controle.agente.DiretorioAgenteJadeUtil;
+import controle.agente.comportamento.Basico;
 
 /**
  * Agente responsável pela inicialização de uma instância do servidor
@@ -19,11 +19,11 @@ public class AgenteInicializadorInstanciaServidor extends Agent {
 	 * Comportamento do agente, inicializa a execução de uma instância da
 	 * aplicação quando recebe notificação do agente Executor de Reconfiguração.
 	 */
-	public class InicializarInstancia extends ComportamentoPadrao {
+	public class InicializarInstancia extends Basico {
 
 		private static final long serialVersionUID = -1969910869557015465L;
 
-		private JMXUtil instancia = new JMXUtil();
+		private JMXConectorAtivacaoUtil instancia = new JMXConectorAtivacaoUtil();
 
 		@Override
 		public void action() {
@@ -35,16 +35,16 @@ public class AgenteInicializadorInstanciaServidor extends Agent {
 
 					if ((Boolean) instancia
 							.invocarMetodoInstanciaExecutorConsulta(
-									JMXUtil.MetodoInstancia.IS_ATIVO,
+									JMXConectorAtivacaoUtil.MetodoInstancia.IS_ATIVO,
 									elementoGerenciado)) {
 						return;
 					}
 
 					instancia.invocarMetodoInstanciaExecutorConsulta(
-							JMXUtil.MetodoInstancia.ATIVAR, elementoGerenciado);
+							JMXConectorAtivacaoUtil.MetodoInstancia.ATIVAR, elementoGerenciado);
 				}
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			}
 		}
 	}
@@ -54,13 +54,13 @@ public class AgenteInicializadorInstanciaServidor extends Agent {
 		super.setup();
 		super.addBehaviour(new InicializarInstancia());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

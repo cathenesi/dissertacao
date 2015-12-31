@@ -2,9 +2,9 @@ package controle.agente.sensor;
 
 import jade.core.Agent;
 import sistemadistribuido.servidor.Emulador;
-import util.DFUtil;
-import util.JMXUtil;
-import controle.agente.sensor.comportamento.PublicarEventoPrimitivo;
+import sistemadistribuido.servidor.conector.JMXConectorAtivacaoUtil;
+import controle.agente.DiretorioAgenteJadeUtil;
+import controle.agente.comportamento.PublicarEventoPrimitivo;
 import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
 import controle.dominio.identificador.IdentificadorElementoGerenciado;
 import controle.evento.EventoInstanciaAtiva;
@@ -28,7 +28,7 @@ public class AgenteSensorInstanciaServidor extends Agent {
 
 		private static final long serialVersionUID = -3446027377283448304L;
 
-		private JMXUtil instancia = new JMXUtil();
+		private JMXConectorAtivacaoUtil instancia = new JMXConectorAtivacaoUtil();
 
 		@Override
 		public EventoInstanciaAtiva coletarEvento() {
@@ -37,7 +37,7 @@ public class AgenteSensorInstanciaServidor extends Agent {
 			try {
 				isAtivo = (Boolean) instancia
 						.invocarMetodoInstanciaExecutorConsulta(
-								JMXUtil.MetodoInstancia.IS_ATIVO,
+								JMXConectorAtivacaoUtil.MetodoInstancia.IS_ATIVO,
 								super.getNomeElementoGerenciado());
 			} catch (RuntimeException e) {
 				isAtivo = false;
@@ -68,7 +68,7 @@ public class AgenteSensorInstanciaServidor extends Agent {
 
 		private static final long serialVersionUID = 2564307284783450889L;
 
-		private JMXUtil instancia = new JMXUtil();
+		private JMXConectorAtivacaoUtil instancia = new JMXConectorAtivacaoUtil();
 
 		@Override
 		public EventoInstanciaInativa coletarEvento() {
@@ -77,7 +77,7 @@ public class AgenteSensorInstanciaServidor extends Agent {
 			try {
 				isAtivo = (Boolean) instancia
 						.invocarMetodoInstanciaExecutorConsulta(
-								JMXUtil.MetodoInstancia.IS_ATIVO,
+								JMXConectorAtivacaoUtil.MetodoInstancia.IS_ATIVO,
 								super.getNomeElementoGerenciado());
 			} catch (RuntimeException e) {
 				isAtivo = false;
@@ -103,13 +103,13 @@ public class AgenteSensorInstanciaServidor extends Agent {
 		super.addBehaviour(new PublicarEventoInstanciaAtiva());
 		super.addBehaviour(new PublicarEventoInstanciaInativa());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

@@ -4,7 +4,8 @@ import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
 import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
- * Evento destinado a indicar que uma instância do servidor {@link Emulador} está inativa.
+ * Evento destinado a indicar que uma instância do servidor {@link Emulador}
+ * está inativa.
  */
 public class EventoInstanciaInativa extends EventoPrimitivo {
 
@@ -13,9 +14,18 @@ public class EventoInstanciaInativa extends EventoPrimitivo {
 	public EventoInstanciaInativa() {
 	}
 
-	public EventoInstanciaInativa(IdentificadorElementoGerenciado identificadorElementoGerenciado,
+	/**
+	 * Cria o evento, passando por parametro qual elemento gerou o evento, e
+	 * qual o nome do atributo a que se refere.
+	 * 
+	 * @param identificadorElementoGerenciado
+	 * @param identificadorAtributoElementoGerenciado
+	 */
+	public EventoInstanciaInativa(
+			IdentificadorElementoGerenciado identificadorElementoGerenciado,
 			IdentificadorAtributoElementoGerenciado identificadorAtributoElementoGerenciado) {
-		super(identificadorElementoGerenciado, identificadorAtributoElementoGerenciado);
+		super(identificadorElementoGerenciado,
+				identificadorAtributoElementoGerenciado);
 	}
 
 }

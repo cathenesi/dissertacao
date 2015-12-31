@@ -5,11 +5,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
+import controle.agente.DiretorioAgenteJadeUtil;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import util.DFUtil;
-import util.Log;
+import util.Erro;
 
 /**
  * Agente responsável por gerenciar a execução dos agentes Atuadores
@@ -36,7 +36,8 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		private Class<? extends Agent> classeAgente;
 		private String mensagem;
 
-		public Reconfiguracao(Class<? extends Agent> classeAgente, String mensagem) {
+		public Reconfiguracao(Class<? extends Agent> classeAgente,
+				String mensagem) {
 			this.classeAgente = classeAgente;
 			this.mensagem = mensagem;
 		}
@@ -44,7 +45,8 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		@Override
 		public boolean equals(Object obj) {
 			Reconfiguracao other = (Reconfiguracao) obj;
-			return this.classeAgente.equals(other.classeAgente) && this.mensagem.equals(other.mensagem);
+			return this.classeAgente.equals(other.classeAgente)
+					&& this.mensagem.equals(other.mensagem);
 		}
 
 		@Override
@@ -57,8 +59,9 @@ public class AgenteExecutorReconfiguracao extends Agent {
 	}
 
 	/**
-	 * Método disparado pelas regras do processador de eventos. Este método
-	 * adiciona um item de reconfiguração na fila do agente.
+	 * Método disparado pelas regras do processador de eventos, declaradas no
+	 * arquivo {@link regrasReconfiguracao.drl}. Este método adiciona um item de
+	 * reconfiguração na fila do agente.
 	 * 
 	 * @param classeAgente
 	 *            Classe do agente atuador a ser ativado
@@ -85,19 +88,20 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		@Override
 		public void action() {
 			try {
-				Reconfiguracao reconfiguracao = ((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes.poll();
+				Reconfiguracao reconfiguracao = ((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes
+						.poll();
 				if (reconfiguracao != null) {
-					// System.out.println(">> "+((AgenteExecutorReconfiguracao)
-					// this.myAgent).reconfiguracoes.size());
-					((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes.size();
+					((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes
+							.size();
 					ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 					msg.setContent(reconfiguracao.mensagem);
-					msg.addReceiver(DFUtil.search(this.myAgent, reconfiguracao.classeAgente));
+					msg.addReceiver(DiretorioAgenteJadeUtil.pesquisar(
+							this.myAgent, reconfiguracao.classeAgente));
 					this.myAgent.send(msg);
 					Thread.sleep(300);
 				}
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			}
 		}
 	}
@@ -112,13 +116,13 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		// regras definidas
 		this.session.setGlobal("controladorAtuacao", this);
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

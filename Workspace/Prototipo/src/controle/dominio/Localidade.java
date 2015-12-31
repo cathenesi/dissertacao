@@ -5,7 +5,8 @@ import java.io.Serializable;
 /**
  * Indica o local físico onde um computador está localizado.
  * 
- * Populado via arquivo {@link dominio.xml}.
+ * Populado, no momento da inicialiação do controle, usando o conteúdo do
+ * arquivo {@link dominio.xml}.
  */
 public class Localidade implements Serializable {
 

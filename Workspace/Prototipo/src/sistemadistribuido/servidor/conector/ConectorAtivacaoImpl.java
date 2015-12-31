@@ -42,7 +42,7 @@ public class ConectorAtivacaoImpl implements ConectorAtivacao {
 	}
 
 	/**
-	 * Retorna o nome da instância
+	 * Retorna o nome da instância.
 	 */
 	@Override
 	public String getNomeInstancia() {

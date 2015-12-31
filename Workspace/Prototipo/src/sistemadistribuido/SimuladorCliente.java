@@ -7,11 +7,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Date;
 
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
-
 import util.Ambiente;
-import util.Log;
+import util.Erro;
 
 /**
  * Simula um caso de teste de um cliente da aplicação executor consultas
@@ -20,7 +17,7 @@ import util.Log;
  */
 public class SimuladorCliente {
 
-	public static class Cliente implements Runnable, ExceptionListener {
+	public static class Cliente implements Runnable {
 
 		private boolean pararDepoisDeUmMinuto = false;
 
@@ -45,17 +42,23 @@ public class SimuladorCliente {
 
 					long tempo = System.currentTimeMillis();
 
-					socket = new Socket(Ambiente.getHostSocketParametro(), Ambiente.getPortaSocketParametro());
-					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					socket = new Socket(Ambiente.getHostSocketParametro(),
+							Ambiente.getPortaSocketParametro());
+					br = new BufferedReader(new InputStreamReader(
+							socket.getInputStream()));
 
-					DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
-					BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					DataOutputStream outToServer = new DataOutputStream(
+							socket.getOutputStream());
+					BufferedReader inFromServer = new BufferedReader(
+							new InputStreamReader(socket.getInputStream()));
 
 					outToServer.writeBytes("TEST\n");
 					String sentence = inFromServer.readLine();
-					System.out.println(sentence + " -> " + (System.currentTimeMillis() - tempo) + " ms");
+					System.out.println(sentence + " -> "
+							+ (System.currentTimeMillis() - tempo) + " ms");
 
-					if (pararDepoisDeUmMinuto && System.currentTimeMillis() > (agora + 60000)) {
+					if (pararDepoisDeUmMinuto
+							&& System.currentTimeMillis() > (agora + 60000)) {
 						System.out.println(new Date() + " -> parando... ");
 						Thread.sleep(60000);
 						agora = System.currentTimeMillis();
@@ -63,7 +66,7 @@ public class SimuladorCliente {
 					}
 
 				} catch (IOException | InterruptedException e) {
-					Log.registrar(e);
+					Erro.registrar(e);
 				} finally {
 					try {
 						if (br != null) {
@@ -73,16 +76,13 @@ public class SimuladorCliente {
 							socket.close();
 						}
 					} catch (IOException e) {
-						Log.registrar(e);
+						Erro.registrar(e);
 					}
 				}
 			}
 
 		}
 
-		public synchronized void onException(JMSException e) {
-			Log.registrar(e);
-		}
 	}
 
 	public static void main(String args[]) throws Exception {

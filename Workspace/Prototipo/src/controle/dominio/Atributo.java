@@ -10,7 +10,8 @@ import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
  * tempo de processamento de uma transação, ou o número de arquivos em uma fila
  * de processamento.
  * 
- * Populado via arquivo {@link dominio.xml}.
+ * Populado, no momento da inicialiação do controle, usando o conteúdo do
+ * arquivo {@link dominio.xml}.
  */
 public class Atributo implements Serializable {
 

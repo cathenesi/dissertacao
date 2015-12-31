@@ -1,8 +1,18 @@
 package controle.agente.sensor;
 
 import jade.core.Agent;
-import util.DFUtil;
-import controle.agente.sensor.comportamento.PublicarEventoPrimitivo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+import org.apache.http.client.fluent.Request;
+
+import util.Ambiente;
+import util.Erro;
+import controle.agente.DiretorioAgenteJadeUtil;
+import controle.agente.comportamento.PublicarEventoPrimitivo;
 import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
 import controle.dominio.identificador.IdentificadorElementoGerenciado;
 import controle.evento.EventoNumeroRequisicoesSimultaneas;
@@ -17,23 +27,60 @@ public class AgenteSensorBalanceador extends Agent {
 
 	/**
 	 * Comportamento do agente, destinado a publicar instâncias do evento
-	 * primitivo {@link EventoNumeroRequisicoesSimultaneas} a cada 1s.
+	 * primitivo {@link EventoNumeroRequisicoesSimultaneas} a cada 1s. Executa
+	 * uma conexão ao load balancer, coleta as estatísticas e retorna a
+	 * quantidade atual de requisições simultâneas
 	 */
-	public class PublicarEventoComNumeroMensagensFila extends
+	public class PublicarEventoComNumeroRequisicoesSimultaneas extends
 			PublicarEventoPrimitivo<EventoNumeroRequisicoesSimultaneas> {
 
 		private static final long serialVersionUID = 1200706390207965224L;
 
-		// private JMXUtil filaMensagem = new JMXUtil();
-
 		@Override
 		public EventoNumeroRequisicoesSimultaneas coletarEvento() {
+
+			Long result = null;
+			String line = null;
+			StringTokenizer st = null;
+			BufferedReader in = null;
+
+			try {
+
+				in = new BufferedReader(new InputStreamReader(Request
+						.Get(Ambiente
+								.getAtributoAmbiente("elemento.gerenciado."
+										+ super.getNomeElementoGerenciado()
+										+ ".host")).execute().returnContent()
+						.asStream()));
+
+				linhas: while ((line = in.readLine()) != null) {
+					st = new StringTokenizer(line, ",");
+					String token = null;
+					while (st.hasMoreTokens()) {
+						token = st.nextToken();
+						if ("FRONTEND".equals(token)) {
+							result = Long.valueOf(st.nextToken());
+							break linhas;
+						}
+					}
+				}
+
+			} catch (IOException e) {
+				Erro.registrar(e);
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						Erro.registrar(e);
+					}
+				}
+			}
+
 			return new EventoNumeroRequisicoesSimultaneas(
 					IdentificadorElementoGerenciado.BALANCEADOR,
-					IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS, 15L);
-			
-					// TODO: ajustar para obter quantidade do balanceador
-					// (Long) filaMensagem.invocarMetodoFila(JMXUtil.MetodoFila.QUEUE_SIZE, null));
+					IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS,
+					result);
 		}
 
 		@Override
@@ -45,15 +92,15 @@ public class AgenteSensorBalanceador extends Agent {
 	@Override
 	protected void setup() {
 		super.setup();
-		super.addBehaviour(new PublicarEventoComNumeroMensagensFila());
+		super.addBehaviour(new PublicarEventoComNumeroRequisicoesSimultaneas());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

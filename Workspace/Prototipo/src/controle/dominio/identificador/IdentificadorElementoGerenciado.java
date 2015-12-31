@@ -1,7 +1,9 @@
 package controle.dominio.identificador;
 
 /**
- * Lista os elementos gerenciados.
+ * Nomes dos elementos gerenciados. Esta enum existe para facilitar o
+ * relcaionamento entre os eventos criados pelos agentes e declaração das
+ * regras.
  */
 public enum IdentificadorElementoGerenciado {
 

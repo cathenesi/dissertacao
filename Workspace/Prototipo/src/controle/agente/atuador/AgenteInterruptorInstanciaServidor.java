@@ -2,13 +2,14 @@ package controle.agente.atuador;
 
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
-import util.DFUtil;
-import util.JMXUtil;
-import util.Log;
-import controle.agente.sensor.comportamento.ComportamentoPadrao;
+import sistemadistribuido.servidor.conector.JMXConectorAtivacaoUtil;
+import util.Erro;
+import controle.agente.DiretorioAgenteJadeUtil;
+import controle.agente.comportamento.Basico;
 
 /**
- * Agente responsável pela interrupção de instância de um consumidor da fila.
+ * Agente responsável pela interrupção de uma instância do servidor
+ * {@link Emulador}.
  */
 public class AgenteInterruptorInstanciaServidor extends Agent {
 
@@ -18,11 +19,11 @@ public class AgenteInterruptorInstanciaServidor extends Agent {
 	 * Comportamento do agente, interrompe a execução de uma instância da
 	 * aplicação quando recebe notificação do agente Executor de Reconfiguração.
 	 */
-	public class InterromperInstancia extends ComportamentoPadrao {
+	public class InterromperInstancia extends Basico {
 
 		private static final long serialVersionUID = -1969910869557015465L;
 
-		private JMXUtil instancia = new JMXUtil();
+		private JMXConectorAtivacaoUtil instancia = new JMXConectorAtivacaoUtil();
 
 		@Override
 		public void action() {
@@ -34,17 +35,17 @@ public class AgenteInterruptorInstanciaServidor extends Agent {
 
 					if (!(Boolean) instancia
 							.invocarMetodoInstanciaExecutorConsulta(
-									JMXUtil.MetodoInstancia.IS_ATIVO,
+									JMXConectorAtivacaoUtil.MetodoInstancia.IS_ATIVO,
 									elementoGerenciado)) {
 						return;
 					}
 
 					instancia.invocarMetodoInstanciaExecutorConsulta(
-							JMXUtil.MetodoInstancia.INATIVAR,
+							JMXConectorAtivacaoUtil.MetodoInstancia.INATIVAR,
 							elementoGerenciado);
 				}
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			}
 		}
 	}
@@ -54,13 +55,13 @@ public class AgenteInterruptorInstanciaServidor extends Agent {
 		super.setup();
 		super.addBehaviour(new InterromperInstancia());
 
-		DFUtil.register(this);
+		DiretorioAgenteJadeUtil.registrar(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
 
-		DFUtil.deregister(this);
+		DiretorioAgenteJadeUtil.remover(this);
 		super.finalize();
 	}
 

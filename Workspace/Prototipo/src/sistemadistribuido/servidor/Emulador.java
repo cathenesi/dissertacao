@@ -9,8 +9,6 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -19,12 +17,10 @@ import javax.management.StandardMBean;
 import sistemadistribuido.servidor.conector.ConectorAtivacao;
 import sistemadistribuido.servidor.conector.ConectorAtivacaoImpl;
 import util.Ambiente;
-import util.Log;
+import util.Erro;
 
 /**
- * 
- * @author carlos.athenesi
- *
+ * Classe criada para emular o cenário de negócio para validação do controle.
  */
 public class Emulador {
 
@@ -58,12 +54,12 @@ public class Emulador {
 
 				socket.getOutputStream().write("OK\n".getBytes());
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			} finally {
 				try {
 					socket.close();
 				} catch (Exception e) {
-					Log.registrar(e);
+					Erro.registrar(e);
 				}
 			}
 		}
@@ -74,7 +70,7 @@ public class Emulador {
 	 * Emula o elemento gerenciado "ExecutorConsulta", para simulação de cenário
 	 * de negócio. Inicia e Interrompe o socket conforme conector.
 	 */
-	public static class ExecutorConsulta implements Runnable, ExceptionListener {
+	public static class ExecutorConsulta implements Runnable {
 
 		private ConectorAtivacao conector = null;
 
@@ -106,21 +102,18 @@ public class Emulador {
 					}
 				}
 			} catch (Exception e) {
-				Log.registrar(e);
+				Erro.registrar(e);
 			} finally {
 				try {
 					if (serverSocket != null) {
 						serverSocket.close();
 					}
 				} catch (Exception e) {
-					Log.registrar(e);
+					Erro.registrar(e);
 				}
 			}
 		}
 
-		public synchronized void onException(JMSException e) {
-			Log.registrar(e);
-		}
 	}
 
 	/**
@@ -141,7 +134,7 @@ public class Emulador {
 			mbs.registerMBean(mbean, getJMXObjectName(nomeInstancia));
 
 		} catch (Exception e) {
-			Log.registrar(e);
+			Erro.registrar(e);
 		}
 		return conector;
 	}
@@ -153,14 +146,16 @@ public class Emulador {
 	}
 
 	/**
-	 * Torna executável a aplicação. Informar a varíavel de ambiente
-	 * {@code ExecutorConsulta.nomeInstancia} para identificar o nome da
-	 * instância.
+	 * Torna executável a aplicação. Na iniciaização, deve ser informada a
+	 * varíavel de ambiente {@code nomeInstancia}, com um valor de
+	 * {@link IdentificadorElementoGerenciado} para permitir a identificação dos
+	 * eventos gerados.
 	 */
 	public static void main(String[] args) {
 
 		ExecutorConsulta consumidor = new ExecutorConsulta();
-		consumidor.conector = registrarConector(Ambiente.getNomeInstanciaParametro(),
+		consumidor.conector = registrarConector(
+				Ambiente.getNomeInstanciaParametro(),
 				Ambiente.isInstanciaAtivaParametro());
 		Thread brokerThread = new Thread(consumidor);
 		brokerThread.setDaemon(false);

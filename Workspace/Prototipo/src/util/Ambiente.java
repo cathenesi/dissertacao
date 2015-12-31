@@ -3,7 +3,7 @@ package util;
 import java.util.Properties;
 
 /**
- * Utilitário para varíaveis de ambiente da aplicação
+ * Utilitário para facilitar uso de varíaveis de ambiente
  */
 public class Ambiente {
 
@@ -11,9 +11,10 @@ public class Ambiente {
 
 	static {
 		try {
-			ATRIBUTOS.load(Ambiente.class.getClassLoader().getResourceAsStream("ambiente.properties"));
+			ATRIBUTOS.load(Ambiente.class.getClassLoader().getResourceAsStream(
+					"ambiente.properties"));
 		} catch (Exception e) {
-			Log.registrar(e);
+			Erro.registrar(e);
 		}
 	}
 

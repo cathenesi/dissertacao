@@ -10,7 +10,8 @@ import controle.dominio.identificador.IdentificadorElementoGerenciado;
  * Indica um artefato de hardware ou de software que compõe o sistema
  * distribuído. Superclasse de {@link Computador} e de {@link Programa}.
  * 
- * Populado via arquivo {@link dominio.xml}.
+ * Populado, no momento da inicialiação do controle, usando o conteúdo do
+ * arquivo {@link dominio.xml}.
  */
 public abstract class ElementoGerenciado implements Serializable {
 

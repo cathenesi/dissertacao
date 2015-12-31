@@ -10,7 +10,8 @@ import java.util.List;
  * Agrega um conjunto de programas e computadores que formam o conjunto de
  * elementos gerenciados.
  * 
- * Populado via arquivo {@link dominio.xml}.
+ * Populado, no momento da inicialiação do controle, usando o conteúdo do
+ * arquivo {@link dominio.xml}.
  */
 public class SistemaControlado implements Serializable {
 
@@ -44,21 +45,29 @@ public class SistemaControlado implements Serializable {
 
 		if (this.computadores != null && this.computadores.size() > 0) {
 			for (Computador computador : this.computadores) {
-				if (computador.getAtributos() != null && computador.getAtributos().size() > 0) {
+				if (computador.getAtributos() != null
+						&& computador.getAtributos().size() > 0) {
 					for (Atributo atributo : computador.getAtributos()) {
 						atributo.setComputador(computador);
-						if (computador.getIdentificador() == null || atributo.getIdentificador() == null) {
+						if (computador.getIdentificador() == null
+								|| atributo.getIdentificador() == null) {
 							throw new IllegalArgumentException(
 									"Identificador do computador ou do atributo nao pode ser nulo: "
-											+ "computador.identificador=" + computador.getIdentificador()
-											+ "atributo.identificador=" + atributo.getIdentificador());
+											+ "computador.identificador="
+											+ computador.getIdentificador()
+											+ "atributo.identificador="
+											+ atributo.getIdentificador());
 						}
-						if (identificadores
-								.contains(computador.getIdentificador() + "|" + atributo.getIdentificador())) {
-							throw new IllegalArgumentException(
-									"Identificador " + atributo.getIdentificador() + " duplicado!");
+						if (identificadores.contains(computador
+								.getIdentificador()
+								+ "|"
+								+ atributo.getIdentificador())) {
+							throw new IllegalArgumentException("Identificador "
+									+ atributo.getIdentificador()
+									+ " duplicado!");
 						} else {
-							identificadores.add(computador.getIdentificador() + "|" + atributo.getIdentificador());
+							identificadores.add(computador.getIdentificador()
+									+ "|" + atributo.getIdentificador());
 						}
 					}
 				}
@@ -67,20 +76,29 @@ public class SistemaControlado implements Serializable {
 
 		if (this.programas != null && this.programas.size() > 0) {
 			for (Programa programa : this.programas) {
-				if (programa.getAtributos() != null && programa.getAtributos().size() > 0) {
+				if (programa.getAtributos() != null
+						&& programa.getAtributos().size() > 0) {
 					for (Atributo atributo : programa.getAtributos()) {
 						atributo.setPrograma(programa);
-						if (programa.getIdentificador() == null || atributo.getIdentificador() == null) {
+						if (programa.getIdentificador() == null
+								|| atributo.getIdentificador() == null) {
 							throw new IllegalArgumentException(
 									"Identificador do programa ou do atributo nao pode ser nulo: "
-											+ "programa.identificador=" + programa.getIdentificador()
-											+ "atributo.identificador=" + atributo.getIdentificador());
+											+ "programa.identificador="
+											+ programa.getIdentificador()
+											+ "atributo.identificador="
+											+ atributo.getIdentificador());
 						}
-						if (identificadores.contains(programa.getIdentificador() + "|" + atributo.getIdentificador())) {
-							throw new IllegalArgumentException(
-									"Identificador " + atributo.getIdentificador() + " duplicado!");
+						if (identificadores.contains(programa
+								.getIdentificador()
+								+ "|"
+								+ atributo.getIdentificador())) {
+							throw new IllegalArgumentException("Identificador "
+									+ atributo.getIdentificador()
+									+ " duplicado!");
 						} else {
-							identificadores.add(programa.getIdentificador() + "|" + atributo.getIdentificador());
+							identificadores.add(programa.getIdentificador()
+									+ "|" + atributo.getIdentificador());
 						}
 					}
 				}
@@ -96,7 +114,8 @@ public class SistemaControlado implements Serializable {
 
 		if (this.computadores != null && this.computadores.size() > 0) {
 			for (Computador computador : this.computadores) {
-				if (computador.getAtributos() != null && computador.getAtributos().size() > 0) {
+				if (computador.getAtributos() != null
+						&& computador.getAtributos().size() > 0) {
 					atributos.addAll(computador.getAtributos());
 				}
 			}
@@ -104,7 +123,8 @@ public class SistemaControlado implements Serializable {
 
 		if (this.programas != null && this.programas.size() > 0) {
 			for (Programa programa : this.programas) {
-				if (programa.getAtributos() != null && programa.getAtributos().size() > 0) {
+				if (programa.getAtributos() != null
+						&& programa.getAtributos().size() > 0) {
 					atributos.addAll(programa.getAtributos());
 				}
 			}
@@ -113,6 +133,12 @@ public class SistemaControlado implements Serializable {
 		return atributos;
 	}
 
+	/**
+	 * Gera uma representação, em HTML, para verificação do funcionamento. O
+	 * HTML gerado é atualizado, por uma thread do agente
+	 * {@link AgenteInicializador}, no arquivo {@link controle.html}, que pode
+	 * ser visualizado em um browser.
+	 */
 	@Override
 	public String toString() {
 
@@ -120,7 +146,8 @@ public class SistemaControlado implements Serializable {
 		html.append("<html><title>Controle</title>");
 		html.append("<head><meta http-equiv=\"refresh\" content=\"2\"></head>");
 		html.append("<body><center>");
-		html.append("Em: ").append(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+		html.append("Em: ").append(
+				new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
 		html.append("<table border=1><tr>");
 
 		for (Programa programa : this.programas) {
@@ -136,8 +163,10 @@ public class SistemaControlado implements Serializable {
 				} else if (Estado.CRITICO.equals(atributo.getEstadoAtual())) {
 					html.append("<font color=\"red\">");
 				}
-				html.append("<br/>").append(atributo.getDescricao()).append("=");
-				if (atributo.getValorAtual() != null && !"".equals(atributo.getValorAtual().trim())) {
+				html.append("<br/>").append(atributo.getDescricao())
+						.append("=");
+				if (atributo.getValorAtual() != null
+						&& !"".equals(atributo.getValorAtual().trim())) {
 					html.append(atributo.getValorAtual());
 				} else {
 					html.append(atributo.getEstadoAtual().toString());

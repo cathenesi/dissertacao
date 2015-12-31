@@ -6,7 +6,7 @@
 			<atributos>
 				<Atributo>
 					<identificador>NUMERO_REQUISICOES_SIMULTANEAS</identificador>
-					<descricao>Numero de Requisicoes Simultaneas em Execucao</descricao>
+					<descricao>Numero de requisicoes simultaneas</descricao>
 					<valorAtual></valorAtual>
 					<estadoAtual>NORMAL</estadoAtual>					
 				</Atributo>
@@ -14,7 +14,7 @@
 		</Programa>
 		<Programa>
 			<identificador>SERVIDOR_INSTANCIA_1</identificador>
-			<descricao>Instancia 1 do Servidor</descricao>
+			<descricao>Instancia 1 do servidor</descricao>
 			<atributos>
 				<Atributo>
 					<identificador>ESTADO</identificador>
@@ -26,7 +26,7 @@
 		</Programa>
 		<Programa>
 			<identificador>SERVIDOR_INSTANCIA_2</identificador>
-			<descricao>Instancia 2 do Servidor</descricao>
+			<descricao>Instancia 2 do servidor</descricao>
 			<atributos>
 				<Atributo>
 					<identificador>ESTADO</identificador>

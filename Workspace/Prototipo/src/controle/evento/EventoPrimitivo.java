@@ -9,7 +9,7 @@ import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
 import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
- * Superclasse dos eventos primitivos, gerados pelos sensores.
+ * Super classe dos eventos primitivos, gerados pelos sensores.
  */
 public abstract class EventoPrimitivo implements Serializable {
 
@@ -23,6 +23,14 @@ public abstract class EventoPrimitivo implements Serializable {
 	public EventoPrimitivo() {
 	}
 
+	/**
+	 * Cria o evento, passando por parametro qual elemento gerou o evento, e
+	 * qual o nome do atributo a que se refere. O evento transporta, também, a
+	 * data/hora e o endereço IP do host onde o evento foi criado.
+	 * 
+	 * @param identificadorElementoGerenciado
+	 * @param identificadorAtributoElementoGerenciado
+	 */
 	public EventoPrimitivo(
 			IdentificadorElementoGerenciado identificadorElementoGerenciado,
 			IdentificadorAtributoElementoGerenciado identificadorAtributoElementoGerenciado) {

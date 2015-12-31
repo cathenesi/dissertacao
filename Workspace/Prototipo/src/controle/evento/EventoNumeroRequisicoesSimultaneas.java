@@ -16,6 +16,13 @@ public class EventoNumeroRequisicoesSimultaneas extends EventoPrimitivo {
 	public EventoNumeroRequisicoesSimultaneas() {
 	}
 
+	/**
+	 * Cria o evento, passando por parametro qual elemento gerou o evento, e
+	 * qual o nome do atributo a que se refere.
+	 * 
+	 * @param identificadorElementoGerenciado
+	 * @param identificadorAtributoElementoGerenciado
+	 */
 	public EventoNumeroRequisicoesSimultaneas(
 			IdentificadorElementoGerenciado identificadorElementoGerenciado,
 			IdentificadorAtributoElementoGerenciado identificadorAtributoElementoGerenciado,

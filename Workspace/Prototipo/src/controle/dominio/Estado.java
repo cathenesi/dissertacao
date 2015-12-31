@@ -1,7 +1,8 @@
 package controle.dominio;
 
 /**
- * Aponta o estado atual de um atributo.
+ * Aponta o estado atual de um atributo, determinado pelas regras descritas no
+ * arquivo {@link regrasAtualizacao.drl}.
  */
 public enum Estado {
 
