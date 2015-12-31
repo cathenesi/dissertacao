@@ -28,6 +28,7 @@ public class SimuladorCliente {
 		/**
 		 * Executa uma requisição de consulta no load balancer
 		 */
+		@SuppressWarnings("unused")
 		@Override
 		public void run() {
 
@@ -54,8 +55,8 @@ public class SimuladorCliente {
 
 					outToServer.writeBytes("TEST\n");
 					String sentence = inFromServer.readLine();
-					System.out.println(sentence + " -> "
-							+ (System.currentTimeMillis() - tempo) + " ms");
+					// System.out.println(sentence + " -> "
+					// + (System.currentTimeMillis() - tempo) + " ms");
 
 					if (pararDepoisDeUmMinuto
 							&& System.currentTimeMillis() > (agora + 60000)) {
@@ -85,19 +86,31 @@ public class SimuladorCliente {
 
 	}
 
+	/**
+	 * Inicializa lotes de 8 clientes, alternando a configuração de forma a
+	 * criar dois volumes: um abaixo de 10 requisicoes simultaenas e outro
+	 * acima, para testar a execução do controle
+	 */
 	public static void main(String args[]) throws Exception {
 
-		Cliente cliente01 = new Cliente(false);
-		Thread brokerThread01 = new Thread(cliente01);
-		brokerThread01.setDaemon(false);
-		brokerThread01.start();
-
-		Cliente cliente02 = new Cliente(true);
-		Thread brokerThread02 = new Thread(cliente02);
-		brokerThread02.setDaemon(false);
-		brokerThread02.start();
-
 		System.out.println("Simulador do cliente iniciado!");
+
+		boolean pararClienteAposUmMinuto = false;
+		for (int i = 0; i < 2; i++) {
+
+			for (int c = 0; c < 8; c++) {
+				Thread brokerThread = new Thread(new Cliente(
+						pararClienteAposUmMinuto));
+				brokerThread.setDaemon(false);
+				brokerThread.start();
+
+			}
+
+			// aguarda um minuto para inicializar os demais clientes
+			Thread.sleep(60000);
+
+			pararClienteAposUmMinuto = !pararClienteAposUmMinuto;
+		}
 
 	}
 

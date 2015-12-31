@@ -12,5 +12,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="sistemadistribuido.servidor.Emulador"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Prototipo"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=7771 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false &#13;&#10;-DnomeInstancia=SERVIDOR_INSTANCIA_1&#13;&#10;-DinstanciaAtiva=false&#13;&#10;-DportaSocket=8887"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=7771 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false &#13;&#10;-DnomeInstancia=SERVIDOR_INSTANCIA_1&#13;&#10;-DinstanciaAtiva=true&#13;&#10;-DportaSocket=8887"/>
 </launchConfiguration>

@@ -13,5 +13,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="sistemadistribuido.SimuladorCliente"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Prototipo"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=7770 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-DnomeInstancia=simulador1&#13;&#10;-DportaSocket=8886&#13;&#10;-DhostSocket=192.168.0.152"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=7770 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-DnomeInstancia=simulador1&#13;&#10;-DportaSocket=8886&#13;&#10;-DhostSocket=192.168.0.101"/>
 </launchConfiguration>

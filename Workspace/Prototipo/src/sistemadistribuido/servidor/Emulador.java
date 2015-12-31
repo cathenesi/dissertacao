@@ -18,6 +18,7 @@ import sistemadistribuido.servidor.conector.ConectorAtivacao;
 import sistemadistribuido.servidor.conector.ConectorAtivacaoImpl;
 import util.Ambiente;
 import util.Erro;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
  * Classe criada para emular o cenário de negócio para validação do controle.
@@ -42,15 +43,16 @@ public class Emulador {
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
+				@SuppressWarnings("unused")
 				String line = null;
 				loop: for (; (line = br.readLine()) != null;) {
 					break loop;
 				}
 
-				// simula tempo de processamento variável, até 1s
-				Thread.sleep(100 + (new Random()).nextInt(1000));
+				// simula tempo de processamento variável, entre 90ms e 1s
+				Thread.sleep(900 + (new Random()).nextInt(100));
 
-				System.out.println(">> " + line);
+				// System.out.println(">> " + line);
 
 				socket.getOutputStream().write("OK\n".getBytes());
 			} catch (Exception e) {
