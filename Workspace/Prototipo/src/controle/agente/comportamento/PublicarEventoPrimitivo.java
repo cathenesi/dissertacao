@@ -22,7 +22,7 @@ public abstract class PublicarEventoPrimitivo<T extends EventoPrimitivo> extends
 
 	/**
 	 * Este método é executado em intervalos de tempos definidos no método
-	 * {@link getIntervaloExecucaoMilisegundos()} e publica um evento primitivo
+	 * {@link getIntervaloExecucaoMilissegundos()} e publica um evento primitivo
 	 * no fluxo do agente {@link AgenteProcessadorEvento}.
 	 */
 	@Override
@@ -38,7 +38,7 @@ public abstract class PublicarEventoPrimitivo<T extends EventoPrimitivo> extends
 				super.myAgent.send(msg);
 			}
 
-			Long intervalInMillisecons = getIntervaloExecucaoMilisegundos();
+			Long intervalInMillisecons = getIntervaloExecucaoMilissegundos();
 			if (intervalInMillisecons != null) {
 				try {
 					Thread.sleep(intervalInMillisecons);
@@ -64,6 +64,6 @@ public abstract class PublicarEventoPrimitivo<T extends EventoPrimitivo> extends
 	 * valor do intervalo, em milissegundos, a ser considerado na publicação dos
 	 * eventos.
 	 */
-	public abstract long getIntervaloExecucaoMilisegundos();
+	public abstract long getIntervaloExecucaoMilissegundos();
 
 }

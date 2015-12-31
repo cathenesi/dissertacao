@@ -84,7 +84,7 @@ public class AgenteSensorBalanceador extends Agent {
 		}
 
 		@Override
-		public long getIntervaloExecucaoMilisegundos() {
+		public long getIntervaloExecucaoMilissegundos() {
 			return 1000;
 		}
 	}

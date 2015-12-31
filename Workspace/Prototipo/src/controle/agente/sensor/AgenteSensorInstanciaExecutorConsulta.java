@@ -53,7 +53,7 @@ public class AgenteSensorInstanciaExecutorConsulta extends Agent {
 		}
 
 		@Override
-		public long getIntervaloExecucaoMilisegundos() {
+		public long getIntervaloExecucaoMilissegundos() {
 			return 1000;
 		}
 	}
@@ -92,7 +92,7 @@ public class AgenteSensorInstanciaExecutorConsulta extends Agent {
 		}
 
 		@Override
-		public long getIntervaloExecucaoMilisegundos() {
+		public long getIntervaloExecucaoMilissegundos() {
 			return 1000;
 		}
 	}
