@@ -34,7 +34,7 @@ public abstract class PublicarEventoPrimitivo<T extends EventoPrimitivo> extends
 			if (eventoPrimitivo != null) {
 				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 				msg.setContentObject(eventoPrimitivo);
-				msg.addReceiver(DiretorioAgenteJadeUtil.pesquisar(super.myAgent, AgenteProcessadorEvento.class));
+				msg.addReceiver(DiretorioAgenteJadeUtil.pesquisar(super.myAgent, AgenteProcessadorEvento.class, null));
 				super.myAgent.send(msg);
 			}
 

@@ -1,4 +1,4 @@
-package sistemadistribuido.servidor;
+package sistemadistribuido.executorconsulta;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,8 +14,8 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
 
-import sistemadistribuido.servidor.conector.ConectorAtivacao;
-import sistemadistribuido.servidor.conector.ConectorAtivacaoImpl;
+import sistemadistribuido.executorconsulta.conector.ConectorAtivacao;
+import sistemadistribuido.executorconsulta.conector.ConectorAtivacaoImpl;
 import util.Ambiente;
 import util.Erro;
 import controle.dominio.identificador.IdentificadorElementoGerenciado;

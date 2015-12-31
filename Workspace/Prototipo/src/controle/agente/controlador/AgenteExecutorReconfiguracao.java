@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
 import controle.agente.DiretorioAgenteJadeUtil;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -34,19 +35,20 @@ public class AgenteExecutorReconfiguracao extends Agent {
 	public class Reconfiguracao {
 
 		private Class<? extends Agent> classeAgente;
-		private String mensagem;
+		private IdentificadorElementoGerenciado identificadorElemento;
 
 		public Reconfiguracao(Class<? extends Agent> classeAgente,
-				String mensagem) {
+				IdentificadorElementoGerenciado identificadorElemento) {
 			this.classeAgente = classeAgente;
-			this.mensagem = mensagem;
+			this.identificadorElemento = identificadorElemento;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			Reconfiguracao other = (Reconfiguracao) obj;
 			return this.classeAgente.equals(other.classeAgente)
-					&& this.mensagem.equals(other.mensagem);
+					&& this.identificadorElemento
+							.equals(other.identificadorElemento);
 		}
 
 		@Override
@@ -65,15 +67,18 @@ public class AgenteExecutorReconfiguracao extends Agent {
 	 * 
 	 * @param classeAgente
 	 *            Classe do agente atuador a ser ativado
-	 * @param mensagem
-	 *            Mensagem a ser passada ao agente
+	 * @param identificadorElemento
+	 *            Identificador do elemento onde ocorrerá a atuação
 	 */
-	public void ruleFired(Class<? extends Agent> classeAgente, String mensagem) {
+	public void ruleFired(Class<? extends Agent> classeAgente,
+			IdentificadorElementoGerenciado identificadorElemento) {
 
-		Reconfiguracao r = new Reconfiguracao(classeAgente, mensagem);
+		Reconfiguracao r = new Reconfiguracao(classeAgente,
+				identificadorElemento);
 		if (!reconfiguracoes.contains(r)) {
 			reconfiguracoes.add(r);
-			System.out.println("ruleFired: " + classeAgente + ", " + mensagem);
+			System.out.println("ruleFired: " + classeAgente + ", "
+					+ identificadorElemento.toString());
 		}
 	}
 
@@ -94,9 +99,10 @@ public class AgenteExecutorReconfiguracao extends Agent {
 					((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes
 							.size();
 					ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-					msg.setContent(reconfiguracao.mensagem);
+					// msg.setContent(reconfiguracao.mensagem);
 					msg.addReceiver(DiretorioAgenteJadeUtil.pesquisar(
-							this.myAgent, reconfiguracao.classeAgente));
+							this.myAgent, reconfiguracao.classeAgente,
+							reconfiguracao.identificadorElemento));
 					this.myAgent.send(msg);
 					Thread.sleep(300);
 				}
@@ -116,7 +122,7 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		// regras definidas
 		this.session.setGlobal("controladorAtuacao", this);
 
-		DiretorioAgenteJadeUtil.registrar(this);
+		DiretorioAgenteJadeUtil.registrar(this, null);
 	}
 
 	@Override

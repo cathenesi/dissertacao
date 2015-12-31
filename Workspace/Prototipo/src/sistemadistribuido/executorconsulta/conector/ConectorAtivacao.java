@@ -1,4 +1,4 @@
-package sistemadistribuido.servidor.conector;
+package sistemadistribuido.executorconsulta.conector;
 
 /**
  * Definição de conector que permite ativar e inativar uma instância do servidor

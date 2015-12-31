@@ -6,6 +6,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import controle.dominio.identificador.IdentificadorElementoGerenciado;
 
 /**
  * Utilitário para acessar o diretório de agentes da plataforma Jade.
@@ -31,12 +32,12 @@ public class DiretorioAgenteJadeUtil {
 	/**
 	 * Registra um agente no diretório.
 	 */
-	public static void registrar(Agent agente) {
+	public static void registrar(Agent agente, IdentificadorElementoGerenciado elemento) {
 
 		DFAgentDescription dfd = new DFAgentDescription();
 		dfd.setName(agente.getAID());
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName(getNomeAgente(agente.getClass()));
+		sd.setName(getNomeAgente(agente.getClass()) + (elemento != null ? elemento : ""));
 		sd.setType(getTipoAgente(agente.getClass()));
 		dfd.addServices(sd);
 		try {
@@ -63,11 +64,11 @@ public class DiretorioAgenteJadeUtil {
 	/**
 	 * Pesquisa um agente no diretório.
 	 */
-	public static AID pesquisar(Agent agenteAtual, Class<? extends Agent> classeAgentePesquisar) {
+	public static AID pesquisar(Agent agenteAtual, Class<? extends Agent> classeAgentePesquisar, IdentificadorElementoGerenciado elemento) {
 
 		DFAgentDescription dfd = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName(getNomeAgente(classeAgentePesquisar));
+		sd.setName(getNomeAgente(classeAgentePesquisar) + (elemento != null ? elemento : ""));
 		sd.setType(getTipoAgente(classeAgentePesquisar));
 		dfd.addServices(sd);
 		try {

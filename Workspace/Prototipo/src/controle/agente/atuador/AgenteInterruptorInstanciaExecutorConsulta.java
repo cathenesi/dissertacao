@@ -2,24 +2,24 @@ package controle.agente.atuador;
 
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
-import sistemadistribuido.servidor.conector.JMXConectorAtivacaoUtil;
+import sistemadistribuido.executorconsulta.conector.JMXConectorAtivacaoUtil;
 import util.Erro;
 import controle.agente.DiretorioAgenteJadeUtil;
 import controle.agente.comportamento.Basico;
 
 /**
- * Agente responsável pela inicialização de uma instância do servidor
+ * Agente responsável pela interrupção de uma instância do servidor
  * {@link Emulador}.
  */
-public class AgenteInicializadorInstanciaServidor extends Agent {
+public class AgenteInterruptorInstanciaExecutorConsulta extends Agent {
 
 	private static final long serialVersionUID = -2117862749424897781L;
 
 	/**
-	 * Comportamento do agente, inicializa a execução de uma instância da
+	 * Comportamento do agente, interrompe a execução de uma instância da
 	 * aplicação quando recebe notificação do agente Executor de Reconfiguração.
 	 */
-	public class InicializarInstancia extends Basico {
+	public class InterromperInstancia extends Basico {
 
 		private static final long serialVersionUID = -1969910869557015465L;
 
@@ -31,17 +31,18 @@ public class AgenteInicializadorInstanciaServidor extends Agent {
 				ACLMessage msgReceived = super.myAgent.receive();
 				if (msgReceived != null) {
 
-					String elementoGerenciado = msgReceived.getContent();
+					//String elementoGerenciado = msgReceived.getContent();
 
-					if ((Boolean) instancia
+					if (!(Boolean) instancia
 							.invocarMetodoInstanciaExecutorConsulta(
 									JMXConectorAtivacaoUtil.MetodoInstancia.IS_ATIVO,
-									elementoGerenciado)) {
+									super.getNomeElementoGerenciado())) {
 						return;
 					}
 
 					instancia.invocarMetodoInstanciaExecutorConsulta(
-							JMXConectorAtivacaoUtil.MetodoInstancia.ATIVAR, elementoGerenciado);
+							JMXConectorAtivacaoUtil.MetodoInstancia.INATIVAR,
+							super.getNomeElementoGerenciado());
 				}
 			} catch (Exception e) {
 				Erro.registrar(e);
@@ -52,9 +53,10 @@ public class AgenteInicializadorInstanciaServidor extends Agent {
 	@Override
 	protected void setup() {
 		super.setup();
-		super.addBehaviour(new InicializarInstancia());
-
-		DiretorioAgenteJadeUtil.registrar(this);
+		InterromperInstancia comportamento = new InterromperInstancia();
+		super.addBehaviour(comportamento);
+		DiretorioAgenteJadeUtil.registrar(this,
+				comportamento.getIdentificadorElementoGerenciado());
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class SimuladorCliente {
 						System.out.println(new Date() + " -> parando... ");
 						Thread.sleep(60000);
 						agora = System.currentTimeMillis();
-						System.out.println(new Date() + " -> iniciando... ");
+						System.out.println(new Date() + " -> reiniciando... ");
 					}
 
 				} catch (IOException | InterruptedException e) {

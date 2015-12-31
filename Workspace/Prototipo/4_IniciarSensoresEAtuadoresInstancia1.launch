@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<stringAttribute key="bad_container_name" value="/IniciarProdutorMensagem"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Prototipo/lib/jade.jar"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.debug.ui.INCLUDE_EXTERNAL_JARS" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="jade.Boot"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-container &#13;&#10;-host localhost &#13;&#10;-port 1111 &#13;&#10;-agents &quot;S1[SERVIDOR_INSTANCIA_1]:controle.agente.sensor.AgenteSensorInstanciaExecutorConsulta;A1[SERVIDOR_INSTANCIA_1]:controle.agente.atuador.AgenteInterruptorInstanciaExecutorConsulta;A2[SERVIDOR_INSTANCIA_1]:controle.agente.atuador.AgenteInicializadorInstanciaExecutorConsulta&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Prototipo"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.rmi.server.hostname=localhost &#13;&#10;-Dcom.sun.management.jmxremote.port=6662 &#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false &#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-DnomeInstancia=sensores"/>
+</launchConfiguration>

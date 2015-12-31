@@ -14,7 +14,7 @@ when
 							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1 
 							&& estadoAtual == Estado.INATIVO);
 then
-	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1.toString());
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1);
 end
 
 rule "ativacaoInstancia2"
@@ -27,7 +27,7 @@ when
 							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.INATIVO);
 then
-	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2.toString());
+	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2);
 end
 
 rule "inativacaoInstancia2"
@@ -40,5 +40,5 @@ when
 							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.NORMAL);
 then
-	controladorAtuacao.ruleFired(AgenteInterruptorInstanciaServidor.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2.toString());
+	controladorAtuacao.ruleFired(AgenteInterruptorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2);
 end

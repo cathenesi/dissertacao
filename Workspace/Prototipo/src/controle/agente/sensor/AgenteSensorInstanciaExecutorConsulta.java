@@ -1,8 +1,8 @@
 package controle.agente.sensor;
 
 import jade.core.Agent;
-import sistemadistribuido.servidor.Emulador;
-import sistemadistribuido.servidor.conector.JMXConectorAtivacaoUtil;
+import sistemadistribuido.executorconsulta.Emulador;
+import sistemadistribuido.executorconsulta.conector.JMXConectorAtivacaoUtil;
 import controle.agente.DiretorioAgenteJadeUtil;
 import controle.agente.comportamento.PublicarEventoPrimitivo;
 import controle.dominio.identificador.IdentificadorAtributoElementoGerenciado;
@@ -11,10 +11,10 @@ import controle.evento.EventoInstanciaAtiva;
 import controle.evento.EventoInstanciaInativa;
 
 /**
- * Agente sensor destinado a identificar o estado de uma instância do servidor
- * {@link Emulador}
+ * S1: Agente sensor destinado a identificar o estado de uma instância do
+ * servidor {@link Emulador}
  */
-public class AgenteSensorInstanciaServidor extends Agent {
+public class AgenteSensorInstanciaExecutorConsulta extends Agent {
 
 	private static final long serialVersionUID = 4585767475494660603L;
 
@@ -100,10 +100,11 @@ public class AgenteSensorInstanciaServidor extends Agent {
 	@Override
 	protected void setup() {
 		super.setup();
-		super.addBehaviour(new PublicarEventoInstanciaAtiva());
+		PublicarEventoInstanciaAtiva comportamento = new PublicarEventoInstanciaAtiva();
+		super.addBehaviour(comportamento);
 		super.addBehaviour(new PublicarEventoInstanciaInativa());
-
-		DiretorioAgenteJadeUtil.registrar(this);
+		DiretorioAgenteJadeUtil.registrar(this,
+				comportamento.getIdentificadorElementoGerenciado());
 	}
 
 	@Override

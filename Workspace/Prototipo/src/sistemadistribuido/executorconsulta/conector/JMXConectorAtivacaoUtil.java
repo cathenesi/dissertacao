@@ -1,4 +1,4 @@
-package sistemadistribuido.servidor.conector;
+package sistemadistribuido.executorconsulta.conector;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-import sistemadistribuido.servidor.Emulador;
+import sistemadistribuido.executorconsulta.Emulador;
 import util.Ambiente;
 import util.Erro;
 

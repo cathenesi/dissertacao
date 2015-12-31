@@ -18,7 +18,7 @@ import controle.dominio.identificador.IdentificadorElementoGerenciado;
 import controle.evento.EventoNumeroRequisicoesSimultaneas;
 
 /**
- * Agente sensor destinado a obter o número de requisições em execu;áo
+ * S2: Agente sensor destinado a obter o número de requisições em execu;áo
  * simultaneamente no balanceador de carga.
  */
 public class AgenteSensorBalanceador extends Agent {
@@ -92,9 +92,10 @@ public class AgenteSensorBalanceador extends Agent {
 	@Override
 	protected void setup() {
 		super.setup();
-		super.addBehaviour(new PublicarEventoComNumeroRequisicoesSimultaneas());
-
-		DiretorioAgenteJadeUtil.registrar(this);
+		PublicarEventoComNumeroRequisicoesSimultaneas comportamento = new PublicarEventoComNumeroRequisicoesSimultaneas();
+		super.addBehaviour(comportamento);
+		DiretorioAgenteJadeUtil.registrar(this,
+				comportamento.getIdentificadorElementoGerenciado());
 	}
 
 	@Override

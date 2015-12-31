@@ -94,7 +94,7 @@ public class AgenteProcessadorEvento extends Agent {
 		this.queueStream = (EntryPoint) super.getArguments()[1];
 		super.addBehaviour(new ProcessadorEvento());
 
-		DiretorioAgenteJadeUtil.registrar(this);
+		DiretorioAgenteJadeUtil.registrar(this, null);
 	}
 
 	@Override

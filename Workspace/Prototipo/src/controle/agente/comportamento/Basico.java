@@ -40,4 +40,13 @@ public abstract class Basico extends CyclicBehaviour {
 		return this.nomeElementoGerenciado;
 	}
 
+	/**
+	 * Retorna instancia da enum {@link IdentificadorElementoGerenciado} que
+	 * indica o elemento gerenciado pelo comportamento.
+	 */
+	public IdentificadorElementoGerenciado getIdentificadorElementoGerenciado() {
+		return IdentificadorElementoGerenciado.getByName(this
+				.getNomeElementoGerenciado());
+	}
+
 }

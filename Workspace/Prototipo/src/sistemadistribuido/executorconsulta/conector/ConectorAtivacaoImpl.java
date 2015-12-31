@@ -1,4 +1,4 @@
-package sistemadistribuido.servidor.conector;
+package sistemadistribuido.executorconsulta.conector;
 
 import util.Ambiente;
 

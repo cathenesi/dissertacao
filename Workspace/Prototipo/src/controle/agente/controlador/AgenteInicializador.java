@@ -152,7 +152,7 @@ public class AgenteInicializador extends Agent {
 		super.setup();
 		super.addBehaviour(new Startup());
 
-		DiretorioAgenteJadeUtil.registrar(this);
+		DiretorioAgenteJadeUtil.registrar(this, null);
 	}
 
 	@Override
