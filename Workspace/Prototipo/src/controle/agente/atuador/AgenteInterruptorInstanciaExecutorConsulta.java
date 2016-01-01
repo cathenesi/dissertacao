@@ -8,7 +8,7 @@ import controle.agente.DiretorioAgenteJadeUtil;
 import controle.agente.comportamento.Basico;
 
 /**
- * Agente responsável pela interrupção de uma instância do servidor
+ * A2: Agente responsável pela interrupção de uma instância do servidor
  * {@link Emulador}.
  */
 public class AgenteInterruptorInstanciaExecutorConsulta extends Agent {

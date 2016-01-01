@@ -4,7 +4,7 @@ import controle.agente.atuador.*
 
 global controle.agente.controlador.AgenteExecutorReconfiguracao controladorAtuacao;
 
-rule "ativacaoInstancia1"
+rule "RR1"
 	activation-group "reconfiguracao"
 when 
 	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
@@ -17,7 +17,7 @@ then
 	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1);
 end
 
-rule "ativacaoInstancia2"
+rule "RR2"
 	activation-group "reconfiguracao"
 when 
 	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
@@ -30,7 +30,7 @@ then
 	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2);
 end
 
-rule "inativacaoInstancia2"
+rule "RR3"
 	activation-group "reconfiguracao"
 when 
 	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 

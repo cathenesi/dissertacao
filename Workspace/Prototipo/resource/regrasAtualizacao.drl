@@ -18,8 +18,36 @@ declare EventoInstanciaInativa
 	@expires( 1s )
 end
 
-rule "estadoNormalBalanceador"
-	activation-group "balanceador"
+rule "RA1"
+	activation-group "ExecutorConsulta"
+	no-loop true
+when 
+	$evento : EventoInstanciaInativa(identificadorElementoGerenciado != null)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
+							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.INATIVO);
+	}
+end
+
+rule "RA2"
+	activation-group "ExecutorConsulta"
+	no-loop true
+when 
+	$evento : EventoInstanciaAtiva(identificadorElementoGerenciado != null)
+	from entry-point "FluxoDeEventos"
+	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
+							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
+then
+	modify ($elemento) {
+		setEstadoAtual(Estado.NORMAL);
+	}
+end
+
+rule "RA3"
+	activation-group "Balanceador"
 	no-loop true
 when 
 	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes <= 10)
@@ -35,8 +63,8 @@ then
 	}
 end
 
-rule "estadoAlertaBalanceador"
-	activation-group "balanceador"
+rule "RA4"
+	activation-group "Balanceador"
 	no-loop true
 when 
 	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes > 10 && numeroRequisicoes <= 20)
@@ -52,8 +80,8 @@ then
 	}
 end
 
-rule "estadoCriticoBalanceador"
-	activation-group "balanceador"
+rule "RA5"
+	activation-group "Balanceador"
 	no-loop true
 when 
 	$evento : EventoNumeroRequisicoesSimultaneas(numeroRequisicoes > 100)
@@ -66,33 +94,5 @@ then
 	}
 	modify ($elemento) {
 		setValorAtual($evento.getNumeroRequisicoes().toString());
-	}
-end
-
-rule "estadoAtivoInstanciaServidor"
-	activation-group "servidor"
-	no-loop true
-when 
-	$evento : EventoInstanciaAtiva(identificadorElementoGerenciado != null)
-	from entry-point "FluxoDeEventos"
-	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
-							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
-then
-	modify ($elemento) {
-		setEstadoAtual(Estado.NORMAL);
-	}
-end
-
-rule "estadoInativoInstanciaServidor"
-	activation-group "servidor"
-	no-loop true
-when 
-	$evento : EventoInstanciaInativa(identificadorElementoGerenciado != null)
-	from entry-point "FluxoDeEventos"
-	$elemento : Atributo(identificador == $evento.identificadorAtributoElementoGerenciado 
-							&& programa.identificador == $evento.getIdentificadorElementoGerenciado() );
-then
-	modify ($elemento) {
-		setEstadoAtual(Estado.INATIVO);
 	}
 end
