@@ -123,10 +123,10 @@ public class AgenteInicializador extends Agent {
 				// 4) Inicializa o agente Executor de Reconfigurações ---------
 				AgentContainer ac = super.myAgent.getContainerController();
 				String agentName = DiretorioAgenteJadeUtil
-						.getNomeAgente(AgenteExecutorReconfiguracao.class);
+						.getNomeAgente(AgenteControladorAtuacao.class);
 				// A sessão Drools criada é passada ao agente
 				ac.createNewAgent(agentName,
-						AgenteExecutorReconfiguracao.class.getName(),
+						AgenteControladorAtuacao.class.getName(),
 						new Object[] { session });
 				ac.getAgent(agentName).start();
 

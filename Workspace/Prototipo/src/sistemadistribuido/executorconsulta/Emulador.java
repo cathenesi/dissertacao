@@ -49,7 +49,7 @@ public class Emulador {
 					break loop;
 				}
 
-				// simula tempo de processamento variável, entre 90ms e 1s
+				// simula tempo de processamento variável, entre 900ms e 1s
 				Thread.sleep(900 + (new Random()).nextInt(100));
 
 				// System.out.println(">> " + line);

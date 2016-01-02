@@ -2,17 +2,14 @@ import controle.dominio.*;
 import controle.dominio.identificador.*;
 import controle.agente.atuador.*
 
-global controle.agente.controlador.AgenteExecutorReconfiguracao controladorAtuacao;
+global controle.agente.controlador.AgenteControladorAtuacao controladorAtuacao;
 
 rule "RR1"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
-							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
-							&& (estadoAtual == Estado.NORMAL || estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
-	$executor1 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
-							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1 
-							&& estadoAtual == Estado.INATIVO);
+	$instancia1 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+				            && programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1 
+				            && estadoAtual == Estado.INATIVO);
 then
 	controladorAtuacao.ruleFired(AgenteInicializadorInstanciaExecutorConsulta.class, IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_1);
 end
@@ -20,10 +17,10 @@ end
 rule "RR2"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+	$balanceador : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
 							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
 							&& (estadoAtual == Estado.ALERTA || estadoAtual == Estado.CRITICO));
-	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+	$instancia2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
 							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.INATIVO);
 then
@@ -33,10 +30,10 @@ end
 rule "RR3"
 	activation-group "reconfiguracao"
 when 
-	$fila : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
+	$balanceador : Atributo(identificador == IdentificadorAtributoElementoGerenciado.NUMERO_REQUISICOES_SIMULTANEAS 
 							&& programa.identificador == IdentificadorElementoGerenciado.BALANCEADOR 
 							&& estadoAtual == Estado.NORMAL);
-	$executor2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
+	$instancia2 : Atributo(identificador == IdentificadorAtributoElementoGerenciado.ESTADO 
 							&& programa.identificador == IdentificadorElementoGerenciado.SERVIDOR_INSTANCIA_2 
 							&& estadoAtual == Estado.NORMAL);
 then

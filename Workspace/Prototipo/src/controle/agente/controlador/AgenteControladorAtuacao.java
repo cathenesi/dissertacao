@@ -15,7 +15,7 @@ import util.Erro;
 /**
  * Agente responsável por gerenciar a execução dos agentes Atuadores
  */
-public class AgenteExecutorReconfiguracao extends Agent {
+public class AgenteControladorAtuacao extends Agent {
 
 	private static final long serialVersionUID = 273786892468632402L;
 
@@ -93,11 +93,9 @@ public class AgenteExecutorReconfiguracao extends Agent {
 		@Override
 		public void action() {
 			try {
-				Reconfiguracao reconfiguracao = ((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes
+				Reconfiguracao reconfiguracao = ((AgenteControladorAtuacao) this.myAgent).reconfiguracoes
 						.poll();
 				if (reconfiguracao != null) {
-					((AgenteExecutorReconfiguracao) this.myAgent).reconfiguracoes
-							.size();
 					ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 					// msg.setContent(reconfiguracao.mensagem);
 					msg.addReceiver(DiretorioAgenteJadeUtil.pesquisar(

@@ -38,10 +38,10 @@ public abstract class PublicarEventoPrimitivo<T extends EventoPrimitivo> extends
 				super.myAgent.send(msg);
 			}
 
-			Long intervalInMillisecons = getIntervaloExecucaoMilissegundos();
-			if (intervalInMillisecons != null) {
+			Long intervaloMillissegundos = getIntervaloExecucaoMilissegundos();
+			if (intervaloMillissegundos != null) {
 				try {
-					Thread.sleep(intervalInMillisecons);
+					Thread.sleep(intervaloMillissegundos);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

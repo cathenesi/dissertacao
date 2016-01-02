@@ -1,7 +1,6 @@
 import controle.evento.*;
 import controle.dominio.*;
 import controle.dominio.identificador.*;
-import controle.agente.atuador.*
 
 declare EventoNumeroRequisicoesSimultaneas
 	@role( event )

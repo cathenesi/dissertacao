@@ -8,31 +8,34 @@
 					<identificador>NUMERO_REQUISICOES_SIMULTANEAS</identificador>
 					<descricao>Numero de requisicoes simultaneas</descricao>
 					<valorAtual></valorAtual>
-					<estadoAtual>NORMAL</estadoAtual>					
+					<!-- refere-se ao estado inicial do elemento -->
+					<estadoAtual>NORMAL</estadoAtual>
 				</Atributo>
 			</atributos>
 		</Programa>
 		<Programa>
 			<identificador>SERVIDOR_INSTANCIA_1</identificador>
-			<descricao>Instancia 1 do servidor</descricao>
+			<descricao>Instancia 1 da aplicacao executora de consultas</descricao>
 			<atributos>
 				<Atributo>
 					<identificador>ESTADO</identificador>
 					<descricao>Estado</descricao>
 					<valorAtual></valorAtual>
-					<estadoAtual>INATIVO</estadoAtual>					
+					<!-- refere-se ao estado inicial do elemento -->
+					<estadoAtual>INATIVO</estadoAtual>
 				</Atributo>
 			</atributos>
 		</Programa>
 		<Programa>
 			<identificador>SERVIDOR_INSTANCIA_2</identificador>
-			<descricao>Instancia 2 do servidor</descricao>
+			<descricao>Instancia 2 da aplicacao executora de consultas</descricao>
 			<atributos>
 				<Atributo>
 					<identificador>ESTADO</identificador>
 					<descricao>Estado</descricao>
 					<valorAtual></valorAtual>
-					<estadoAtual>INATIVO</estadoAtual>					
+					<!-- refere-se ao estado inicial do elemento -->
+					<estadoAtual>INATIVO</estadoAtual>
 				</Atributo>
 			</atributos>
 		</Programa>
